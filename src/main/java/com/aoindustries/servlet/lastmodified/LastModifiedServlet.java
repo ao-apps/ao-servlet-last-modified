@@ -85,8 +85,7 @@ import javax.servlet.http.HttpServletResponse;
  * All files must be in the {@link StandardCharsets#UTF_8} encoding.
  * </p>
  * <p>
- * TODO: Add support for url(...) imports.
- * TODO: Add support for non-url importsl
+ * TODO: Add support for non-url imports
  * </p>
  *
  * @see  ServletContextCache  This requires the cache be active
