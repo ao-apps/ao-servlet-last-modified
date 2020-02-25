@@ -55,7 +55,7 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 		</init-param>
 	</filter>
 	<filter-mapping>
-		<filter-name>com.aoindustries.servlet.filter.LastModifiedCacheControlFilter</filter-name>
+		<filter-name>com.aoindustries.servlet.lastmodified.LastModifiedCacheControlFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 		<dispatcher>REQUEST</dispatcher>
 		<dispatcher>ERROR</dispatcher>
