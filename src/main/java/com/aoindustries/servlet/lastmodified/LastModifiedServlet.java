@@ -84,6 +84,10 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * All files must be in the {@link StandardCharsets#UTF_8} encoding.
  * </p>
+ * <p>
+ * TODO: Add support for url(...) imports.
+ * TODO: Add support for non-url importsl
+ * </p>
  *
  * @see  ServletContextCache  This requires the cache be active
  */
@@ -195,7 +199,7 @@ public class LastModifiedServlet extends HttpServlet {
 		private static final String PARSE_CSS_FILE_CACHE_ATTRIBUTE_NAME = ParsedCssFile.class.getName()+".parseCssFile.cache";
 
 		private static final Pattern URL_PATTERN = Pattern.compile(
-			"url\\s*\\(\\s*['\"]?(\\S+)['\"]?\\s*\\)",
+			"url\\s*\\(\\s*(\\S+)\\s*\\)",
 			Pattern.CASE_INSENSITIVE
 		);
 
@@ -237,20 +241,29 @@ public class LastModifiedServlet extends HttpServlet {
 					while(matcher.find()) {
 						int start = matcher.start(1);
 						int end = matcher.end(1);
-						if(start!=lastEnd) newContent.append(cssContent, lastEnd, start);
-						AnyURI uri = new AnyURI(matcher.group(1));
-						// The regular expression leaves ' or " at end of URL, strip here:
-						//String addAfterUrl = null;
-						//if(url.endsWith("'")) {
-						//	System.err.println("url ends ': " + url);
-						//	url = url.substring(0, url.length()-1);
-						//	addAfterUrl = "'";
-						//} else if(url.endsWith("\"")) {
-						//	System.err.println("url ends \": " + url);
-						//	url = url.substring(0, url.length()-1);
-						//	addAfterUrl = "\"";
-						//}
-						//System.err.println("url=" + url);
+						// Skip quotes at start
+						char ch;
+						while(
+							start < end
+							&& (
+								(ch = cssContent.charAt(start)) == '"'
+								|| ch == '\''
+							)
+						) {
+							start++;
+						}
+						// Skip quotes at end
+						while(
+							start < end
+							&& (
+								(ch = cssContent.charAt(end - 1)) == '"'
+								|| ch == '\''
+							)
+						) {
+							end--;
+						}
+						if(start != lastEnd) newContent.append(cssContent, lastEnd, start);
+						AnyURI uri = new AnyURI(cssContent.substring(start, end));
 						AnyURI noFragmentUri = uri.setFragment(null);
 						newContent.append(noFragmentUri.toString());
 						// Check for header disabling auto last modified
