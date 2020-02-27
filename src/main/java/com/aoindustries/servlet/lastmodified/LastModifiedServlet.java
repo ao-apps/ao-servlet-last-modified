@@ -234,7 +234,7 @@ public class LastModifiedServlet extends HttpServlet {
 
 		private static ParsedCssFile parseCssFile(ServletContext servletContext, HeaderAndPath hap) throws FileNotFoundException, IOException, URISyntaxException {
 			ConcurrentMap<HeaderAndPath,ParsedCssFile> parsedCssFileCache = ParsedCssFileCache.getCache(servletContext);
-			ServletContextCache servletContextCache = ServletContextCache.getCache(servletContext);
+			ServletContextCache servletContextCache = ServletContextCache.getInstance(servletContext);
 			// Check the cache
 			final long lastModified = servletContextCache.getLastModified(hap.path);
 			ParsedCssFile parsedCssFile = parsedCssFileCache.get(hap);
