@@ -50,13 +50,18 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebListener;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -86,6 +91,7 @@ import javax.servlet.http.HttpServletResponse;
  * </p>
  * <p>
  * TODO: Add support for non-url imports
+ * TODO: Review recursive import url(...) works correctly (urls within the included urls should be applied)
  * </p>
  *
  * @see  ServletContextCache  This requires the cache be active
@@ -190,12 +196,36 @@ public class LastModifiedServlet extends HttpServlet {
 		}
 	}
 
-	private static class ParsedCssFile {
+	@WebListener("Creates the ParsedCssFile cache on application start")
+	public static class ParsedCssFileCache implements ServletContextListener {
 
 		/**
 		 * The attribute name used to store the cache.
 		 */
-		private static final String PARSE_CSS_FILE_CACHE_ATTRIBUTE_NAME = ParsedCssFile.class.getName()+".parseCssFile.cache";
+		private static final String APPLICATION_ATTRIBUTE = ParsedCssFileCache.class.getName();
+
+		@Override
+		public void contextInitialized(ServletContextEvent event) {
+			getCache(event.getServletContext());
+		}
+
+		@Override
+		public void contextDestroyed(ServletContextEvent event) {
+			// Do nothing
+		}
+
+		private static ConcurrentMap<HeaderAndPath,ParsedCssFile> getCache(ServletContext servletContext) {
+			@SuppressWarnings("unchecked")
+			ConcurrentMap<HeaderAndPath,ParsedCssFile> cache = (ConcurrentMap<HeaderAndPath,ParsedCssFile>)servletContext.getAttribute(APPLICATION_ATTRIBUTE);
+			if(cache == null) {
+				cache = new ConcurrentHashMap<>();
+				servletContext.setAttribute(APPLICATION_ATTRIBUTE, cache);
+			}
+			return cache;
+		}
+	}
+
+	private static class ParsedCssFile {
 
 		private static final Pattern URL_PATTERN = Pattern.compile(
 			"url\\s*\\(\\s*(\\S+)\\s*\\)",
@@ -203,110 +233,102 @@ public class LastModifiedServlet extends HttpServlet {
 		);
 
 		private static ParsedCssFile parseCssFile(ServletContext servletContext, HeaderAndPath hap) throws FileNotFoundException, IOException, URISyntaxException {
-			// Get the cache
-			@SuppressWarnings("unchecked")
-			Map<HeaderAndPath,ParsedCssFile> cache = (Map<HeaderAndPath,ParsedCssFile>)servletContext.getAttribute(PARSE_CSS_FILE_CACHE_ATTRIBUTE_NAME);
-			if(cache == null) {
-				// Create new cache
-				cache = new HashMap<>();
-				servletContext.setAttribute(PARSE_CSS_FILE_CACHE_ATTRIBUTE_NAME, cache);
-			}
+			ConcurrentMap<HeaderAndPath,ParsedCssFile> parsedCssFileCache = ParsedCssFileCache.getCache(servletContext);
 			ServletContextCache servletContextCache = ServletContextCache.getCache(servletContext);
-			synchronized(cache) {
-				// Check the cache
-				final long lastModified = servletContextCache.getLastModified(hap.path);
-				ParsedCssFile parsedCssFile = cache.get(hap);
-				if(
-					parsedCssFile != null
-					&& parsedCssFile.lastModified == lastModified
-					&& !parsedCssFile.hasModifiedUrl(servletContextCache)
-				) {
-					return parsedCssFile;
-				} else {
-					// (Re)parse the file
-					String cssContent;
-					{
-						InputStream resourceIn = servletContext.getResourceAsStream(hap.path);
-						if(resourceIn==null) throw new FileNotFoundException(hap.path);
-						try (BufferedReader in = new BufferedReader(new InputStreamReader(resourceIn, CSS_ENCODING))) {
-							cssContent = IoUtils.readFully(in);
-						}
+			// Check the cache
+			final long lastModified = servletContextCache.getLastModified(hap.path);
+			ParsedCssFile parsedCssFile = parsedCssFileCache.get(hap);
+			if(
+				parsedCssFile != null
+				&& parsedCssFile.lastModified == lastModified
+				&& !parsedCssFile.hasModifiedUrl(servletContextCache)
+			) {
+				return parsedCssFile;
+			} else {
+				// (Re)parse the file
+				String cssContent;
+				{
+					InputStream resourceIn = servletContext.getResourceAsStream(hap.path);
+					if(resourceIn==null) throw new FileNotFoundException(hap.path);
+					try (BufferedReader in = new BufferedReader(new InputStreamReader(resourceIn, CSS_ENCODING))) {
+						cssContent = IoUtils.readFully(in);
 					}
-					// Replace values while capturing URLs
-					StringBuilder newContent = new StringBuilder(cssContent.length() << 1);
-					Map<HeaderAndPath,Long> referencedPaths = new HashMap<>();
-					Matcher matcher = URL_PATTERN.matcher(cssContent);
-					int lastEnd = 0;
-					while(matcher.find()) {
-						int start = matcher.start(1);
-						int end = matcher.end(1);
-						// Skip quotes at start
-						char ch;
-						while(
-							start < end
-							&& (
-								(ch = cssContent.charAt(start)) == '"'
-								|| ch == '\''
-							)
-						) {
-							start++;
-						}
-						// Skip quotes at end
-						while(
-							start < end
-							&& (
-								(ch = cssContent.charAt(end - 1)) == '"'
-								|| ch == '\''
-							)
-						) {
-							end--;
-						}
-						if(start != lastEnd) newContent.append(cssContent, lastEnd, start);
-						AnyURI uri = new AnyURI(cssContent.substring(start, end));
-						AnyURI noFragmentUri = uri.setFragment(null);
-						newContent.append(noFragmentUri.toString());
-						// Check for header disabling auto last modified
-						if(hap.header==null || hap.header) {
-							// Get the resource path relative to the CSS file
-							String resourcePath = URIResolver.getAbsolutePath(hap.path, noFragmentUri.toString());
-							if(resourcePath.startsWith("/")) {
-								URI resourcePathURI = new URI(
-									URIEncoder.encodeURI(
-										resourcePath
-									)
-								);
-								HeaderAndPath resourceHap = new HeaderAndPath(
-									hap.header,
-									resourcePathURI.getPath()
-								);
-								long resourceModified = servletContextCache.getLastModified(resourceHap.path);
-								if(resourceModified != 0) {
-									referencedPaths.put(resourceHap, resourceModified);
-									newContent
-										.append(noFragmentUri.hasQuery() ? '&' : '?')
-										.append(LAST_MODIFIED_PARAMETER_NAME)
-										.append('=')
-										.append(encodeLastModified(resourceModified))
-									;
-								}
+				}
+				// Replace values while capturing URLs
+				StringBuilder newContent = new StringBuilder(cssContent.length() << 1);
+				Map<HeaderAndPath,Long> referencedPaths = new HashMap<>();
+				Matcher matcher = URL_PATTERN.matcher(cssContent);
+				int lastEnd = 0;
+				while(matcher.find()) {
+					int start = matcher.start(1);
+					int end = matcher.end(1);
+					// Skip quotes at start
+					char ch;
+					while(
+						start < end
+						&& (
+							(ch = cssContent.charAt(start)) == '"'
+							|| ch == '\''
+						)
+					) {
+						start++;
+					}
+					// Skip quotes at end
+					while(
+						start < end
+						&& (
+							(ch = cssContent.charAt(end - 1)) == '"'
+							|| ch == '\''
+						)
+					) {
+						end--;
+					}
+					if(start != lastEnd) newContent.append(cssContent, lastEnd, start);
+					AnyURI uri = new AnyURI(cssContent.substring(start, end));
+					AnyURI noFragmentUri = uri.setFragment(null);
+					newContent.append(noFragmentUri.toString());
+					// Check for header disabling auto last modified
+					if(hap.header==null || hap.header) {
+						// Get the resource path relative to the CSS file
+						String resourcePath = URIResolver.getAbsolutePath(hap.path, noFragmentUri.toString());
+						if(resourcePath.startsWith("/")) {
+							URI resourcePathURI = new URI(
+								URIEncoder.encodeURI(
+									resourcePath
+								)
+							);
+							HeaderAndPath resourceHap = new HeaderAndPath(
+								hap.header,
+								resourcePathURI.getPath()
+							);
+							// TODO: If the resource is *.css, apply recursively (with a Set used to catch duplicates to avoid stack overflow - just don't recurse when already visited)
+							long resourceModified = servletContextCache.getLastModified(resourceHap.path);
+							if(resourceModified != 0) {
+								referencedPaths.put(resourceHap, resourceModified);
+								newContent
+									.append(noFragmentUri.hasQuery() ? '&' : '?')
+									.append(LAST_MODIFIED_PARAMETER_NAME)
+									.append('=')
+									.append(encodeLastModified(resourceModified))
+								;
 							}
 						}
-						if(uri.hasFragment()) {
-							newContent.append('#');
-							uri.appendFragment(newContent);
-						}
-						lastEnd = end;
 					}
-					if(lastEnd < cssContent.length()) newContent.append(cssContent, lastEnd, cssContent.length());
-					parsedCssFile = new ParsedCssFile(
-						servletContextCache,
-						lastModified,
-						newContent.toString().getBytes(CSS_ENCODING),
-						referencedPaths
-					);
-					cache.put(hap, parsedCssFile);
-					return parsedCssFile;
+					if(uri.hasFragment()) {
+						newContent.append('#');
+						uri.appendFragment(newContent);
+					}
+					lastEnd = end;
 				}
+				if(lastEnd < cssContent.length()) newContent.append(cssContent, lastEnd, cssContent.length());
+				parsedCssFile = new ParsedCssFile(
+					servletContextCache,
+					lastModified,
+					newContent.toString().getBytes(CSS_ENCODING),
+					referencedPaths
+				);
+				parsedCssFileCache.put(hap, parsedCssFile);
+				return parsedCssFile;
 			}
 		}
 
@@ -350,6 +372,7 @@ public class LastModifiedServlet extends HttpServlet {
 		/**
 		 * Checks if any of the referencedPaths have been modified.
 		 */
+		// TODO: Handle recursive *.css paths (with a Set to avoid infinite recursion)
 		private boolean hasModifiedUrl(ServletContextCache servletContextCache) {
 			for(Map.Entry<HeaderAndPath,Long> entry : referencedPaths.entrySet()) {
 				if(servletContextCache.getLastModified(entry.getKey().path) != entry.getValue()) {
