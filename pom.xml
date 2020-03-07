@@ -32,13 +32,6 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 	<groupId>com.aoindustries</groupId><artifactId>ao-servlet-last-modified</artifactId><version>1.0.0-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 
-	<properties>
-		<javaVersion>1.8</javaVersion>
-		<compiler.bootclasspath>${bootclasspath.jdk8}</compiler.bootclasspath>
-		<javac.bootclasspath>${bootclasspath.jdk8}</javac.bootclasspath>
-		<javac.link.javaApi>${javac.link.javaApi.jdk8}</javac.link.javaApi>
-	</properties>
-
 	<name>AO Servlet Last Modified</name>
 	<url>https://aoindustries.com/ao-servlet-last-modified/</url>
 	<description>Automatically adds lastModified URL parameters to ensure latest resources always used.</description>
@@ -61,9 +54,9 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId>
 						<configuration>
 							<links>
-								<link>${javac.link.javaApi}</link>
+								<link>${javadoc.link.javase}</link>
 								<!-- Java EE -->
-								<link>${javac.link.javaeeApi.6}</link>
+								<link>${javadoc.link.javaee}</link>
 								<!-- Direct -->
 								<link>https://aoindustries.com/ao-lang/apidocs/</link>
 								<link>https://aoindustries.com/ao-net-types/apidocs/</link>
