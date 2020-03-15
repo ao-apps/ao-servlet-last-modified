@@ -22,7 +22,7 @@
  */
 package com.aoindustries.servlet.lastmodified;
 
-import com.aoindustries.util.StringUtility;
+import com.aoindustries.lang.Strings;
 import com.aoindustries.util.WildcardPatternMatcher;
 import java.io.IOException;
 import javax.servlet.DispatcherType;
@@ -80,10 +80,10 @@ public class LastModifiedCacheControlFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig config) {
-		String cacheControlParam = StringUtility.trimNullIfEmpty(config.getInitParameter("cache-control"));
+		String cacheControlParam = Strings.trimNullIfEmpty(config.getInitParameter("cache-control"));
 		if(cacheControlParam == null) {
 			// Compatibility with old parameter case
-			cacheControlParam = StringUtility.trimNullIfEmpty(config.getInitParameter("Cache-Control"));
+			cacheControlParam = Strings.trimNullIfEmpty(config.getInitParameter("Cache-Control"));
 		}
 		this.cacheControl = (cacheControlParam == null) ? DEFAULT_CACHE_CONTROL : cacheControlParam;
 	}

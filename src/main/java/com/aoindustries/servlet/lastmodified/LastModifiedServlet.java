@@ -31,7 +31,7 @@ import com.aoindustries.net.URIParser;
 import com.aoindustries.net.URIResolver;
 import com.aoindustries.servlet.ServletContextCache;
 import com.aoindustries.servlet.http.Canonical;
-import com.aoindustries.util.StringUtility;
+import com.aoindustries.lang.Strings;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -551,10 +551,10 @@ public class LastModifiedServlet extends HttpServlet {
 	@Override
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
-		String cacheControlParam = StringUtility.trimNullIfEmpty(config.getInitParameter("cache-control"));
+		String cacheControlParam = Strings.trimNullIfEmpty(config.getInitParameter("cache-control"));
 		if(cacheControlParam == null) {
 			// Compatibility with old parameter case
-			cacheControlParam = StringUtility.trimNullIfEmpty(config.getInitParameter("Cache-Control"));
+			cacheControlParam = Strings.trimNullIfEmpty(config.getInitParameter("Cache-Control"));
 		}
 		this.cacheControl = (cacheControlParam == null) ? DEFAULT_CACHE_CONTROL : cacheControlParam;
 	}
