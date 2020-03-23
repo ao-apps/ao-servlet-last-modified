@@ -53,7 +53,7 @@ import javax.servlet.http.HttpServletResponse;
  *   <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">Cache-Control - HTTP | MDN</a></li>
  *   <li><a href="https://web.dev/stale-while-revalidate">Keeping things fresh with stale-while-revalidate</a></li>
  *   <li><a href="https://ashton.codes/set-cache-control-max-age-1-year/">Why we set a `Cache-Control: Max-Age` of 1 year</a></li>
- *   <li><a href="https://developers.google.com/web/tools/lighthouse/audits/cache-policy?utm_source=lighthouse&utm_medium=devtools">Uses inefficient cache policy on static assets</a></li>
+ *   <li><a href="https://developers.google.com/web/tools/lighthouse/audits/cache-policy?utm_source=lighthouse&amp;utm_medium=devtools">Uses inefficient cache policy on static assets</a></li>
  * </ol>
  * 
  * @see  WildcardPatternMatcher  for supported patterns
