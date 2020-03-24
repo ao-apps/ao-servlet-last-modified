@@ -30,7 +30,7 @@ Automatically adds lastModified URL parameters to ensure latest resources always
 * [Project Home](https://aoindustries.com/ao-servlet-last-modified/)
 * [Changelog](https://aoindustries.com/ao-servlet-last-modified/changelog)
 * [API Docs](https://aoindustries.com/ao-servlet-last-modified/apidocs/)
-* [Maven Central Repository](https://search.maven.org/#search%7Cgav%7C1%7Cg:%22com.aoindustries%22%20AND%20a:%22ao-servlet-last-modified%22)
+* [Maven Central Repository](https://search.maven.org/artifact/com.aoindustries/ao-servlet-last-modified)
 * [GitHub](https://github.com/aoindustries/ao-servlet-last-modified)
 
 ## Contact Us
