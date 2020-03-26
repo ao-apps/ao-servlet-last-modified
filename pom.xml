@@ -35,7 +35,7 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 	<name>AO Servlet Last Modified</name>
 	<url>https://aoindustries.com/ao-servlet-last-modified/</url>
 	<description>Automatically adds lastModified URL parameters to ensure latest resources always used.</description>
-	<inceptionYear>2020</inceptionYear>
+	<inceptionYear>2013</inceptionYear>
 
 	<scm>
 		<!-- Can't inherit due to multi-module -->

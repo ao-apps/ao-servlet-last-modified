@@ -44,7 +44,7 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 	<name>AO Servlet Last Modified Book</name>
 	<url>https://aoindustries.com/ao-servlet-last-modified/</url>
 	<description>Documentation for AO Servlet Last Modified in SemanticCMS format.</description>
-	<inceptionYear>2020</inceptionYear>
+	<inceptionYear>2013</inceptionYear>
 
 	<scm>
 		<connection>scm:git:git://github.com/aoindustries/ao-servlet-last-modified.git</connection>
