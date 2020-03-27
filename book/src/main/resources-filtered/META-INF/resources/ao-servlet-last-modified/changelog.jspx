@@ -37,6 +37,7 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-02-24T16:06:23-0600"
+		dateModified="2020-03-26T19:56:58-05:00"
 	>
 		<!-- The current snapshot, unreleased version -->
 		<c:set var="version" value="@{com.aoindustries:ao-servlet-last-modified:pom.version}" />
@@ -51,14 +52,23 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 				groupId="@{project.groupId}"
 				artifactId="@{documented.artifactId}"
 				scmUrl="@{project.scm.url}"
-			>
-				<ul>
-					<li>
-						Split into own project out of <ao:a href="https://aoindustries.com/ao-servlet-util/">ao-servlet-util</ao:a>
-						and <ao:a href="https://aoindustries.com/ao-servlet-filter/">ao-servlet-filter</ao:a>.
-					</li>
-				</ul>
-			</changelog:release>
+			/>
 		</c:if>
+
+		<changelog:release
+			projectName="@{documented.name}"
+			version="1.0.0"
+			datePublished="2020-03-26T19:56:58-05:00"
+			groupId="@{project.groupId}"
+			artifactId="@{documented.artifactId}"
+			scmUrl="@{project.scm.url}"
+		>
+			<ul>
+				<li>
+					Split into own project out of <ao:a href="https://aoindustries.com/ao-servlet-util/">ao-servlet-util</ao:a>
+					and <ao:a href="https://aoindustries.com/ao-servlet-filter/">ao-servlet-filter</ao:a>.
+				</li>
+			</ul>
+		</changelog:release>
 	</core:page>
 </jsp:root>
