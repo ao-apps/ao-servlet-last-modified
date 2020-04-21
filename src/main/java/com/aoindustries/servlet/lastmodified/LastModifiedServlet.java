@@ -25,13 +25,13 @@ package com.aoindustries.servlet.lastmodified;
 import com.aoindustries.io.ContentType;
 import com.aoindustries.io.FileUtils;
 import com.aoindustries.io.IoUtils;
+import com.aoindustries.lang.Strings;
 import com.aoindustries.net.AnyURI;
 import com.aoindustries.net.URIEncoder;
 import com.aoindustries.net.URIParser;
 import com.aoindustries.net.URIResolver;
 import com.aoindustries.servlet.ServletContextCache;
 import com.aoindustries.servlet.http.Canonical;
-import com.aoindustries.lang.Strings;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -462,6 +462,7 @@ public class LastModifiedServlet extends HttpServlet {
 			"svg",
 			"tif",
 			"tiff",
+			"webp",
 			// HTML document
 			"htm",
 			"html",
