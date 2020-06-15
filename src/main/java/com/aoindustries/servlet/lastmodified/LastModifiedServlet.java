@@ -38,7 +38,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -57,6 +56,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -93,6 +93,10 @@ import javax.servlet.http.HttpServletResponse;
  * <p>
  * TODO: Add support for non-url imports
  * TODO: Review recursive import url(...) works correctly (urls within the included urls should be applied)
+ * </p>
+ * <p>
+ * TODO: Rewrite all URLs to be app-relative, with contextPath prefixed, much like how other URLs are rewritten.
+ * This is so paths will still be relative to the CSS file even when included into a page directly.
  * </p>
  *
  * @see  ServletContextCache  This requires the cache be active
@@ -586,12 +590,17 @@ public class LastModifiedServlet extends HttpServlet {
 				byte[] rewrittenCss = ParsedCssFile.parseCssFile(getServletContext(), hap).rewrittenCssFile;
 				response.setContentType(ContentType.CSS);
 				response.setCharacterEncoding(CSS_ENCODING.name());
-				response.setContentLength(rewrittenCss.length);
-				if(!response.containsHeader("cache-control")) {
-					response.setHeader("cache-control", cacheControl);
+				if(request.getAttribute(RequestDispatcher.INCLUDE_SERVLET_PATH) != null) {
+					// When included, write as characters for compatibility
+					response.getWriter().write(new String(rewrittenCss, CSS_ENCODING));
+				} else {
+					// Otherwise, write as binary for performance
+					response.setContentLength(rewrittenCss.length);
+					if(!response.containsHeader("cache-control")) {
+						response.setHeader("cache-control", cacheControl);
+					}
+					response.getOutputStream().write(rewrittenCss);
 				}
-				OutputStream out = response.getOutputStream();
-				out.write(rewrittenCss);
 			} else {
 				throw new ServletException("Unsupported file type: " + extension);
 			}
