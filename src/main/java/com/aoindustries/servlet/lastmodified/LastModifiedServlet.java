@@ -32,6 +32,7 @@ import com.aoindustries.net.URIParser;
 import com.aoindustries.net.URIResolver;
 import com.aoindustries.servlet.ServletContextCache;
 import com.aoindustries.servlet.http.Canonical;
+import com.aoindustries.servlet.http.Dispatcher;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -563,7 +564,11 @@ public class LastModifiedServlet extends HttpServlet {
 	@Override
 	protected long getLastModified(HttpServletRequest request) {
 		// Find the underlying file
-		long lastModified = getLastModified(getServletContext(), request, request.getServletPath());
+		long lastModified = getLastModified(
+			getServletContext(),
+			request,
+			Dispatcher.getCurrentPagePath(request)
+		);
 		return lastModified==0 ? -1 : lastModified;
 	}
 
@@ -571,7 +576,10 @@ public class LastModifiedServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// Find the underlying file
-			HeaderAndPath hap = new HeaderAndPath(request, request.getServletPath());
+			HeaderAndPath hap = new HeaderAndPath(
+				request,
+				Dispatcher.getCurrentPagePath(request)
+			);
 			String extension = FileUtils.getExtension(hap.path);
 			if(CSS_EXTENSION.equalsIgnoreCase(extension)) {
 				// Special case for CSS files
