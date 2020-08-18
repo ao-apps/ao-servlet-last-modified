@@ -233,7 +233,7 @@ public class LastModifiedServlet extends HttpServlet {
 	private static class ParsedCssFile {
 
 		private static final Pattern URL_PATTERN = Pattern.compile(
-			"url\\s*\\(\\s*(\\S+)\\s*\\)",
+			"url\\s*\\(\\s*(\\S+?)\\s*\\)",
 			Pattern.CASE_INSENSITIVE
 		);
 
@@ -288,9 +288,14 @@ public class LastModifiedServlet extends HttpServlet {
 					) {
 						end--;
 					}
-					if(start != lastEnd) newContent.append(cssContent, lastEnd, start);
+					newContent.append(cssContent, lastEnd, start);
 					AnyURI uri = new AnyURI(cssContent.substring(start, end));
 					AnyURI noFragmentUri = uri.setFragment(null);
+					if(logger.isLoggable(Level.FINEST)) {
+						logger.finest("match .......: " + matcher.group());
+						logger.finest("uri .........: " + uri);
+						if(uri != noFragmentUri) logger.finest("noFragmentUri: " + noFragmentUri);
+					}
 					newContent.append(noFragmentUri.toString());
 					// Check for header disabling auto last modified
 					if(hap.header==null || hap.header) {
@@ -323,9 +328,10 @@ public class LastModifiedServlet extends HttpServlet {
 						newContent.append('#');
 						uri.appendFragment(newContent);
 					}
-					lastEnd = end;
+					lastEnd = matcher.end();
+					newContent.append(cssContent, end, lastEnd);
 				}
-				if(lastEnd < cssContent.length()) newContent.append(cssContent, lastEnd, cssContent.length());
+				newContent.append(cssContent, lastEnd, cssContent.length());
 				parsedCssFile = new ParsedCssFile(
 					servletContextCache,
 					lastModified,
