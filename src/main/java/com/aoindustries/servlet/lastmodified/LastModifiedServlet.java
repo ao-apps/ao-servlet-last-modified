@@ -441,9 +441,13 @@ public class LastModifiedServlet extends HttpServlet {
 	 * Fetched some from <a href="https://wikipedia.org/wiki/List_of_file_formats">https://wikipedia.org/wiki/List_of_file_formats</a>
 	 */
 	private static final Set<String> staticExtensions = new HashSet<>(
-		//
-		// Note: This list parallels the extensions in mime-mappings/.../web-fragment.xml
-		//
+		// Related to LocaleFilter.java
+		// Related to NoSessionFilter.java
+		// Related to SessionResponseWrapper.java
+		// Is LastModifiedServlet.java
+		// Matches ao-mime-mappings/…/web-fragment.xml
+		// Related to ContentType.java
+		// Related to MimeType.java
 		Arrays.asList(
 			// CSS
 			"css",
@@ -484,7 +488,13 @@ public class LastModifiedServlet extends HttpServlet {
 			// XML document
 			"xml",
 			"xsd",
-			"rss"
+			"rss",
+			// Web development
+			"less",
+			"sass",
+			"scss",
+			"css.map",
+			"js.map"
 		)
 	);
 
@@ -524,7 +534,8 @@ public class LastModifiedServlet extends HttpServlet {
 					urlErr.initCause(e);
 					throw urlErr;
 				}
-				String extension = FileUtils.getExtension(resourcePath).toLowerCase(Locale.ROOT);
+				int dotPos = resourcePath.lastIndexOf('.');
+				String extension = (dotPos != -1) ? resourcePath.substring(dotPos + 1).toLowerCase(Locale.ROOT) : null;
 				final boolean doAdd;
 				if(when == AddLastModified.TRUE) {
 					// Always try to add
@@ -532,17 +543,27 @@ public class LastModifiedServlet extends HttpServlet {
 				} else {
 					assert when == AddLastModified.AUTO;
 					if(
+						// No extension
+						extension == null
 						// Check for header disabling auto last modified
-						"false".equalsIgnoreCase(request.getHeader(LAST_MODIFIED_HEADER_NAME))
+						|| "false".equalsIgnoreCase(request.getHeader(LAST_MODIFIED_HEADER_NAME))
 						// Will not modify Canonical URLs
 						|| Canonical.get()
 					) {
 						doAdd = false;
 					} else {
 						// Conditionally try to add based on file extension
-						doAdd = staticExtensions.contains(
-							extension
-						);
+						if(staticExtensions.contains(extension)) {
+							doAdd = true;
+						} else {
+							// Check for double-dot extension
+							dotPos = resourcePath.lastIndexOf('.', dotPos - 1);
+							if(dotPos != -1) {
+								doAdd = staticExtensions.contains(resourcePath.substring(dotPos + 1).toLowerCase(Locale.ROOT));
+							} else {
+								doAdd = false;
+							}
+						}
 					}
 				}
 				if(doAdd) {
