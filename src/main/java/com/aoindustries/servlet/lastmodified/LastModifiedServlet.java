@@ -604,6 +604,7 @@ public class LastModifiedServlet extends HttpServlet {
 	}
 
 	@Override
+	@SuppressWarnings({"UseSpecificCatch", "TooBroadCatch"})
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			// Find the underlying file
@@ -633,9 +634,10 @@ public class LastModifiedServlet extends HttpServlet {
 			}
 		} catch(FileNotFoundException e) {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
-		} catch(RuntimeException | IOException | URISyntaxException e) {
-			logger.log(Level.SEVERE, null, e);
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+		} catch(ThreadDeath | ServletException | IOException td) {
+			throw td;
+		} catch(Throwable t) {
+			throw new ServletException(t);
 		}
 	}
 }
