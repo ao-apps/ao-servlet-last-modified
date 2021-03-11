@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -219,9 +219,9 @@ public class LastModifiedServlet extends HttpServlet {
 			// Do nothing
 		}
 
-		private static ConcurrentMap<HeaderAndPath,ParsedCssFile> getCache(ServletContext servletContext) {
+		private static ConcurrentMap<HeaderAndPath, ParsedCssFile> getCache(ServletContext servletContext) {
 			@SuppressWarnings("unchecked")
-			ConcurrentMap<HeaderAndPath,ParsedCssFile> cache = (ConcurrentMap<HeaderAndPath,ParsedCssFile>)servletContext.getAttribute(APPLICATION_ATTRIBUTE);
+			ConcurrentMap<HeaderAndPath, ParsedCssFile> cache = (ConcurrentMap<HeaderAndPath, ParsedCssFile>)servletContext.getAttribute(APPLICATION_ATTRIBUTE);
 			if(cache == null) {
 				cache = new ConcurrentHashMap<>();
 				servletContext.setAttribute(APPLICATION_ATTRIBUTE, cache);
@@ -238,7 +238,7 @@ public class LastModifiedServlet extends HttpServlet {
 		);
 
 		private static ParsedCssFile parseCssFile(ServletContext servletContext, HeaderAndPath hap) throws FileNotFoundException, IOException, URISyntaxException {
-			ConcurrentMap<HeaderAndPath,ParsedCssFile> parsedCssFileCache = ParsedCssFileCache.getCache(servletContext);
+			ConcurrentMap<HeaderAndPath, ParsedCssFile> parsedCssFileCache = ParsedCssFileCache.getCache(servletContext);
 			ServletContextCache servletContextCache = ServletContextCache.getInstance(servletContext);
 			// Check the cache
 			final long lastModified = servletContextCache.getLastModified(hap.path);
@@ -261,7 +261,7 @@ public class LastModifiedServlet extends HttpServlet {
 				}
 				// Replace values while capturing URLs
 				StringBuilder newContent = new StringBuilder(cssContent.length() << 1);
-				Map<HeaderAndPath,Long> referencedPaths = new HashMap<>();
+				Map<HeaderAndPath, Long> referencedPaths = new HashMap<>();
 				Matcher matcher = URL_PATTERN.matcher(cssContent);
 				int lastEnd = 0;
 				while(matcher.find()) {
@@ -356,7 +356,7 @@ public class LastModifiedServlet extends HttpServlet {
 		/**
 		 * The list of paths that need to be checked to get the new modified time.
 		 */
-		private final Map<HeaderAndPath,Long> referencedPaths;
+		private final Map<HeaderAndPath, Long> referencedPaths;
 
 		/**
 		 * The most recent last modified of the CSS file itself and all dependencies.
@@ -367,13 +367,13 @@ public class LastModifiedServlet extends HttpServlet {
 			ServletContextCache servletContextCache,
 			long lastModified,
 			byte[] rewrittenCssFile,
-			Map<HeaderAndPath,Long> referencedPaths
+			Map<HeaderAndPath, Long> referencedPaths
 		) {
 			this.lastModified = lastModified;
 			this.referencedPaths = referencedPaths;
 			this.rewrittenCssFile = rewrittenCssFile;
 			long newest = lastModified;
-			for(Map.Entry<HeaderAndPath,Long> entry : referencedPaths.entrySet()) {
+			for(Map.Entry<HeaderAndPath, Long> entry : referencedPaths.entrySet()) {
 				long modified = servletContextCache.getLastModified(entry.getKey().path);
 				if(modified > newest) newest = modified;
 			}
@@ -385,7 +385,7 @@ public class LastModifiedServlet extends HttpServlet {
 		 */
 		// TODO: Handle recursive *.css paths (with a Set to avoid infinite recursion)
 		private boolean hasModifiedUrl(ServletContextCache servletContextCache) {
-			for(Map.Entry<HeaderAndPath,Long> entry : referencedPaths.entrySet()) {
+			for(Map.Entry<HeaderAndPath, Long> entry : referencedPaths.entrySet()) {
 				if(servletContextCache.getLastModified(entry.getKey().path) != entry.getValue()) {
 					return true;
 				}
