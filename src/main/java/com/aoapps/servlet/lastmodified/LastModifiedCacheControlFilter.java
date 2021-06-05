@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2019, 2020  AO Industries, Inc.
+ * Copyright (C) 2019, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -20,10 +20,10 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.servlet.lastmodified;
+package com.aoapps.servlet.lastmodified;
 
-import com.aoindustries.lang.Strings;
-import com.aoindustries.util.WildcardPatternMatcher;
+import com.aoapps.hodgepodge.util.WildcardPatternMatcher;
+import com.aoapps.lang.Strings;
 import java.io.IOException;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;

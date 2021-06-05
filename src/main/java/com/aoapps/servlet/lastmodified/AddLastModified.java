@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -20,9 +20,9 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.servlet.lastmodified;
+package com.aoapps.servlet.lastmodified;
 
-import com.aoindustries.servlet.http.Canonical;
+import com.aoapps.servlet.http.Canonical;
 
 /**
  * The options for when to add last modified parameters.

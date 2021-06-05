@@ -20,19 +20,19 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.servlet.lastmodified;
+package com.aoapps.servlet.lastmodified;
 
-import com.aoindustries.io.ContentType;
-import com.aoindustries.io.FileUtils;
-import com.aoindustries.io.IoUtils;
-import com.aoindustries.lang.Strings;
-import com.aoindustries.net.AnyURI;
-import com.aoindustries.net.URIEncoder;
-import com.aoindustries.net.URIParser;
-import com.aoindustries.net.URIResolver;
-import com.aoindustries.servlet.ServletContextCache;
-import com.aoindustries.servlet.http.Canonical;
-import com.aoindustries.servlet.http.Dispatcher;
+import com.aoapps.lang.Strings;
+import com.aoapps.lang.io.ContentType;
+import com.aoapps.lang.io.FileUtils;
+import com.aoapps.lang.io.IoUtils;
+import com.aoapps.net.AnyURI;
+import com.aoapps.net.URIEncoder;
+import com.aoapps.net.URIParser;
+import com.aoapps.net.URIResolver;
+import com.aoapps.servlet.ServletContextCache;
+import com.aoapps.servlet.http.Canonical;
+import com.aoapps.servlet.http.Dispatcher;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -148,7 +148,7 @@ public class LastModifiedServlet extends HttpServlet {
 	/**
 	 * The header that may be used to disable automatic lastModified parameters.
 	 */
-	public static final String LAST_MODIFIED_HEADER_NAME = "X-com-aoindustries-servlet-lastmodified-enabled";
+	public static final String LAST_MODIFIED_HEADER_NAME = "X-com-aoapps-servlet-lastmodified-enabled";
 
 	/**
 	 * Encodes a last modified value.

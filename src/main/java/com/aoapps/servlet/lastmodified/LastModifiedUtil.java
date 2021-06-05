@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020  AO Industries, Inc.
+ * Copyright (C) 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -20,11 +20,11 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.aoindustries.servlet.lastmodified;
+package com.aoapps.servlet.lastmodified;
 
-import com.aoindustries.net.URIParameters;
-import com.aoindustries.servlet.http.Dispatcher;
-import com.aoindustries.servlet.http.HttpServletUtil;
+import com.aoapps.net.URIParameters;
+import com.aoapps.servlet.http.Dispatcher;
+import com.aoapps.servlet.http.HttpServletUtil;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import javax.servlet.ServletContext;
@@ -46,7 +46,7 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  HttpServletUtil#buildRedirectURL(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.http.HttpServletUtil.UrlModifier, boolean, boolean)
+	 * @see  HttpServletUtil#buildRedirectURL(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.http.HttpServletUtil.UrlModifier, boolean, boolean)
 	 */
 	public static String buildRedirectURL(
 		ServletContext servletContext,
@@ -76,8 +76,8 @@ public class LastModifiedUtil {
 	 * with path resolved relative to the given request.
 	 *
 	 * @see  Dispatcher#getCurrentPagePath(javax.servlet.http.HttpServletRequest)
-	 * @see  #buildRedirectURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
-	 * @see  #sendRedirect(int, javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildRedirectURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #sendRedirect(int, javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 */
 	public static String buildRedirectURL(
 		ServletContext servletContext,
@@ -103,8 +103,8 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  #buildRedirectURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
-	 * @see  #sendRedirect(int, javax.servlet.jsp.PageContext, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildRedirectURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #sendRedirect(int, javax.servlet.jsp.PageContext, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 */
 	public static String buildRedirectURL(
 		PageContext pageContext,
@@ -127,8 +127,8 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  #buildRedirectURL(javax.servlet.jsp.PageContext, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
-	 * @see  #sendRedirect(int, javax.servlet.jsp.JspContext, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildRedirectURL(javax.servlet.jsp.PageContext, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #sendRedirect(int, javax.servlet.jsp.JspContext, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 */
 	public static String buildRedirectURL(
 		JspContext jspContext,
@@ -149,7 +149,7 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  HttpServletUtil#buildURL(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.http.HttpServletUtil.UrlModifier, boolean, boolean)
+	 * @see  HttpServletUtil#buildURL(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.http.HttpServletUtil.UrlModifier, boolean, boolean)
 	 */
 	public static String buildURL(
 		ServletContext servletContext,
@@ -178,7 +178,7 @@ public class LastModifiedUtil {
 	 * Builds a URL with path resolved relative to the given request.
 	 *
 	 * @see  Dispatcher#getCurrentPagePath(javax.servlet.http.HttpServletRequest)
-	 * @see  #buildURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 */
 	public static String buildURL(
 		ServletContext servletContext,
@@ -204,7 +204,7 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  #buildURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 */
 	public static String buildURL(
 		PageContext pageContext,
@@ -227,7 +227,7 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  #buildURL(javax.servlet.jsp.PageContext, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildURL(javax.servlet.jsp.PageContext, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 */
 	public static String buildURL(
 		JspContext jspContext,
@@ -248,7 +248,7 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  #buildRedirectURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildRedirectURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 * @see  HttpServletUtil#sendRedirect(int, javax.servlet.http.HttpServletResponse, java.lang.String)
 	 *
 	 * @throws  IllegalStateException  when the response is already {@linkplain HttpServletResponse#isCommitted() committed}
@@ -283,7 +283,7 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  #buildRedirectURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildRedirectURL(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 * @see  HttpServletUtil#sendRedirect(int, javax.servlet.http.HttpServletResponse, java.lang.String)
 	 *
 	 * @throws  IllegalStateException  when the response is already {@linkplain HttpServletResponse#isCommitted() committed}
@@ -316,7 +316,7 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  #buildRedirectURL(javax.servlet.jsp.PageContext, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildRedirectURL(javax.servlet.jsp.PageContext, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 * @see  HttpServletUtil#sendRedirect(int, javax.servlet.http.HttpServletResponse, java.lang.String)
 	 *
 	 * @throws  IllegalStateException  when the response is already {@linkplain HttpServletResponse#isCommitted() committed}
@@ -345,8 +345,8 @@ public class LastModifiedUtil {
 	}
 
 	/**
-	 * @see  #buildRedirectURL(javax.servlet.jsp.JspContext, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
-	 * @see  #sendRedirect(int, javax.servlet.jsp.PageContext, java.lang.String, com.aoindustries.net.URIParameters, com.aoindustries.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #buildRedirectURL(javax.servlet.jsp.JspContext, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
+	 * @see  #sendRedirect(int, javax.servlet.jsp.PageContext, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.lastmodified.AddLastModified, boolean, boolean)
 	 *
 	 * @throws  IllegalStateException  when the response is already {@linkplain HttpServletResponse#isCommitted() committed}
 	 */
