@@ -425,7 +425,7 @@ public class LastModifiedServlet extends HttpServlet {
 
 	/**
 	 * Automatically determines extension from path.
-	 * 
+	 *
 	 * @see  #getLastModified(javax.servlet.ServletContext, javax.servlet.http.HttpServletRequest, java.lang.String, java.lang.String)
 	 */
 	public static long getLastModified(ServletContext servletContext, HttpServletRequest request, String path) {
