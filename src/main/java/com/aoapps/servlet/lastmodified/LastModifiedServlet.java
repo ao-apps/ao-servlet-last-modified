@@ -478,11 +478,11 @@ public class LastModifiedServlet extends HttpServlet {
 			"tif",
 			"tiff",
 			"webp",
-			// HTML document
-			"htm",
-			"html",
-			"xhtml",
-			"mhtml",
+			// HTML document: Not included since causes duplicate content URLs
+			//"htm",
+			//"html",
+			//"xhtml",
+			//"mhtml",
 			// PDF document
 			"pdf",
 			// XML document

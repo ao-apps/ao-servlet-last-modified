@@ -37,7 +37,7 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 		shortTitle="Changelog"
 		tocLevels="1"
 		datePublished="2020-02-24T16:06:23-06:00"
-		dateModified="2021-06-27T16:13:41-05:00"
+		dateModified="2021-07-05T01:01:16-05:00"
 	>
 		<c:if test="${fn:endsWith('@{project.version}', '-SNAPSHOT') and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')}">
 			<changelog:release
@@ -58,6 +58,7 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 					</li>
 					<li>Maven artifact relocated from <code>com.aoindustries:ao-servlet-last-modified</code> to <code>com.aoapps:ao-servlet-last-modified</code>.</li>
 					<li>Package renamed from <code>com.aoindustries.servlet.lastmodified</code> to <code>com.aoapps.servlet.lastmodified</code>.</li>
+					<li>No longer adding last-modified parameters to HTML files by default, since the links cause duplicate content issues.</li>
 				</ul>
 			</changelog:release>
 		</c:if>
