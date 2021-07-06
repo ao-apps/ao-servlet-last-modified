@@ -24,26 +24,8 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.aoapps</groupId><artifactId>ao-oss-parent</artifactId><version>1.16.0-POST-SNAPSHOT</version>
-		<relativePath>../parent/pom.xml</relativePath>
-	</parent>
-
-	<groupId>com.aoapps</groupId><artifactId>ao-servlet-last-modified</artifactId><version>2.0.0-POST-SNAPSHOT</version>
-	<packaging>bundle</packaging>
-
-	<properties>
-		<module.name>com.aoapps.servlet.lastmodified</module.name>
-		<!-- Java 1.8 -->
-		<javase.version>1.8</javase.version>
-		<javase.release>8</javase.release>
-		<javadoc.link.javase>${javadoc.link.javase.8}</javadoc.link.javase>
-		<!-- This must be set in your ~/.m2/settings.xml when building with JDK < 9 -->
-		<javase.bootclasspath>${javase.bootclasspath.8}</javase.bootclasspath>
-
-		<javadoc.breadcrumbs><![CDATA[<a target="${javadoc.target}" href="https://oss.aoapps.com/">AO OSS</a>
-/ <a target="${javadoc.target}" href="${project.url}">Servlet Last Modified</a>]]></javadoc.breadcrumbs>
-	</properties>
+	<groupId>com.aoindustries</groupId><artifactId>ao-servlet-last-modified</artifactId><version>2.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
 
 	<name>AO Servlet Last Modified</name>
 	<url>https://oss.aoapps.com/servlet-last-modified/</url>
@@ -85,36 +67,100 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 		<url>https://github.com/aoindustries/ao-servlet-last-modified/issues</url>
 	</issueManagement>
 
+	<pluginRepositories>
+		<pluginRepository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+		<pluginRepository>
+			<id>sonatype-nexus-snapshots-s01</id>
+			<name>Sonatype Nexus Snapshots S01</name>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<repository>
+			<id>sonatype-nexus-snapshots</id>
+			<name>Sonatype Nexus Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>sonatype-nexus-snapshots-s01</id>
+			<name>Sonatype Nexus Snapshots S01</name>
+			<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<relocation>
+			<groupId>com.aoapps</groupId><artifactId>ao-servlet-last-modified</artifactId><version>2.0.0</version>
+			<message>Maven artifact relocated from "com.aoindustries:ao-servlet-last-modified" to "com.aoapps:ao-servlet-last-modified".</message>
+		</relocation>
+		<snapshotRepository>
+			<id>ossrh-aoindustries</id>
+			<name>ossrh-aoindustries</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
+		<!-- Unused for Nexus plugin
+		<repository>
+			<id>ossrh-aoindustries</id>
+			<name>ossrh-aoindustries</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		-->
+	</distributionManagement>
+
 	<build>
 		<plugins>
-			<!-- Java 1.8: see https://maven.apache.org/plugins/maven-compiler-plugin/examples/module-info.html -->
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId>
-				<executions>
-					<!-- compile everything to ensure module-info contains right entries -->
-					<execution>
-						<id>default-compile</id>
-						<configuration>
-							<release>9</release>
-						</configuration>
-					</execution>
-					<!-- recompile everything for target VM except the module-info.java -->
-					<execution>
-						<id>base-compile</id><goals><goal>compile</goal></goals>
-						<configuration>
-							<excludes>
-								<exclude>module-info.java</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-				</executions>
+				<groupId>org.sonatype.plugins</groupId><artifactId>nexus-staging-maven-plugin</artifactId><version>1.6.8</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh-aoindustries</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId><artifactId>maven-release-plugin</artifactId><version>3.0.0-M4</version>
 				<configuration>
-					<!-- Java 1.8: generate future-proof modular javadocs -->
-					<source>11</source>
-					<release>11</release>
+					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId><artifactId>maven-gpg-plugin</artifactId><version>3.0.1</version>
+				<configuration>
+					<lockMode>multiple</lockMode>
+					<homedir>${gpg.support-aoindustries-com.homedir}</homedir>
+					<keyname>${gpg.support-aoindustries-com.keyname}</keyname>
+					<passphrase>${gpg.support-aoindustries-com.passphrase}</passphrase>
 				</configuration>
 			</plugin>
 		</plugins>
@@ -122,163 +168,19 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 
 	<profiles>
 		<profile>
-			<id>offlineLinks</id><activation><file><exists>src/main/java</exists></file></activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>unpack.offlineLinks</id><phase>generate-sources</phase><goals><goal>unpack</goal></goals>
-								<configuration>
-									<artifactItems>
-										<!-- Direct -->
-										<artifactItem>
-											<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><classifier>javadoc</classifier>
-											<includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-hodgepodge</outputDirectory>
-										</artifactItem>
-										<artifactItem>
-											<groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId><classifier>javadoc</classifier>
-											<includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-lang</outputDirectory>
-										</artifactItem>
-										<artifactItem>
-											<groupId>com.aoapps</groupId><artifactId>ao-net-types</artifactId><classifier>javadoc</classifier>
-											<includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-net-types</outputDirectory>
-										</artifactItem>
-										<artifactItem>
-											<groupId>com.aoapps</groupId><artifactId>ao-servlet-util</artifactId><classifier>javadoc</classifier>
-											<includes>element-list, package-list</includes>
-											<outputDirectory>${project.build.directory}/offlineLinks/com.aoapps/ao-servlet-util</outputDirectory>
-										</artifactItem>
-										<!-- ao-javadoc-offline: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
-										<!-- ao-javadoc-offline: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId> -->
-									</artifactItems>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-javadoc-plugin</artifactId>
-						<configuration>
-							<offlineLinks>
-								<!-- Direct -->
-								<offlineLink>
-									<url>https://oss.aoapps.com/hodgepodge/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-hodgepodge</location>
-								</offlineLink>
-								<offlineLink>
-									<url>https://oss.aoapps.com/lang/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-lang</location>
-								</offlineLink>
-								<offlineLink>
-									<url>https://oss.aoapps.com/net-types/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-net-types</location>
-								</offlineLink>
-								<offlineLink>
-									<url>https://oss.aoapps.com/servlet-util/apidocs/</url>
-									<location>${project.build.directory}/offlineLinks/com.aoapps/ao-servlet-util</location>
-								</offlineLink>
-								<!-- Java EE: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
-								<!-- Java EE: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId> -->
-								<!-- Java SE -->
-								<offlineLink>
-									<url>${javadoc.link.javase}</url>
-									<location>${project.build.directory}/offlineLinks/com/aoapps/javadoc/offline/javase/${javase.release}</location>
-								</offlineLink>
-								<!-- Java EE -->
-								<offlineLink>
-									<url>${javadoc.link.javaee}</url>
-									<location>${project.build.directory}/offlineLinks/com/aoapps/javadoc/offline/javaee/${javaee.version}</location>
-								</offlineLink>
-							</offlineLinks>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
 			<id>release</id>
 			<build>
 				<plugins>
 					<plugin>
-						<groupId>org.apache.felix</groupId><artifactId>maven-bundle-plugin</artifactId>
-						<configuration>
-							<instructions>
-								<!--
-									Releases use "Automatic-Module-Name" instead of "module-info.java"
-									since has direct dependencies that are not yet modularized.
-								-->
-								<Automatic-Module-Name>${module.name}</Automatic-Module-Name>
-								<Private-Package>!.</Private-Package>
-							</instructions>
-						</configuration>
+						<groupId>org.apache.maven.plugins</groupId><artifactId>maven-gpg-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id><phase>verify</phase><goals><goal>sign</goal></goals>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
 		</profile>
 	</profiles>
-
-	<dependencyManagement>
-		<dependencies>
-			<!-- Direct -->
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId><version>5.0.0${POST-SNAPSHOT}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId><version>5.0.0${POST-SNAPSHOT}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-net-types</artifactId><version>2.0.0${POST-SNAPSHOT}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-servlet-util</artifactId><version>4.0.0${POST-SNAPSHOT}</version>
-			</dependency>
-			<!-- javaee-web-api-bom: <groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId> -->
-			<!-- javaee-web-api-bom: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId> -->
-			<!-- Transitive -->
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId><version>2.0.0${POST-SNAPSHOT}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-tempfiles</artifactId><version>3.0.0${POST-SNAPSHOT}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-tlds</artifactId><version>2.0.0${POST-SNAPSHOT}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.commons</groupId><artifactId>commons-lang3</artifactId><version>3.12.0</version>
-			</dependency>
-			<!-- BOM -->
-			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>javaee-web-api-bom</artifactId><version>7.0.0${POST-SNAPSHOT}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<dependencies>
-		<!-- Direct -->
-		<dependency>
-			<groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.aoapps</groupId><artifactId>ao-net-types</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.aoapps</groupId><artifactId>ao-servlet-util</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId><artifactId>javax.servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId>
-		</dependency>
-	</dependencies>
 </project>
