@@ -8,6 +8,8 @@
 [![semantic versioning: 2.0.0](https://oss.aoapps.com/ao-badges/semver-2.0.0.svg)](http://semver.org/spec/v2.0.0.html)
 [![license: LGPL v3](https://oss.aoapps.com/ao-badges/license-lgpl-3.0.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
+[![Build](https://github.com/aoindustries/ao-servlet-last-modified/workflows/Build/badge.svg?branch=master)](https://github.com/aoindustries/ao-servlet-last-modified/actions?query=workflow%3ABuild)
+
 Automatically adds lastModified URL parameters to ensure latest resources always used.
 
 ## Project Links
