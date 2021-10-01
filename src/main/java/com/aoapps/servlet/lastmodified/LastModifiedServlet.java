@@ -30,6 +30,7 @@ import com.aoapps.net.AnyURI;
 import com.aoapps.net.URIEncoder;
 import com.aoapps.net.URIParser;
 import com.aoapps.net.URIResolver;
+import com.aoapps.servlet.attribute.ScopeEE;
 import com.aoapps.servlet.ServletContextCache;
 import com.aoapps.servlet.http.Canonical;
 import com.aoapps.servlet.http.Dispatcher;
@@ -56,7 +57,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -207,7 +207,8 @@ public class LastModifiedServlet extends HttpServlet {
 		/**
 		 * The attribute name used to store the cache.
 		 */
-		private static final String APPLICATION_ATTRIBUTE = ParsedCssFileCache.class.getName();
+		private static final ScopeEE.Application.Attribute<ConcurrentMap<HeaderAndPath, ParsedCssFile>> APPLICATION_ATTRIBUTE =
+			ScopeEE.APPLICATION.attribute(ParsedCssFileCache.class.getName());
 
 		@Override
 		public void contextInitialized(ServletContextEvent event) {
@@ -220,13 +221,7 @@ public class LastModifiedServlet extends HttpServlet {
 		}
 
 		private static ConcurrentMap<HeaderAndPath, ParsedCssFile> getCache(ServletContext servletContext) {
-			@SuppressWarnings("unchecked")
-			ConcurrentMap<HeaderAndPath, ParsedCssFile> cache = (ConcurrentMap<HeaderAndPath, ParsedCssFile>)servletContext.getAttribute(APPLICATION_ATTRIBUTE);
-			if(cache == null) {
-				cache = new ConcurrentHashMap<>();
-				servletContext.setAttribute(APPLICATION_ATTRIBUTE, cache);
-			}
-			return cache;
+			return APPLICATION_ATTRIBUTE.context(servletContext).computeIfAbsent(__ -> new ConcurrentHashMap<>());
 		}
 	}
 
@@ -618,7 +613,7 @@ public class LastModifiedServlet extends HttpServlet {
 				byte[] rewrittenCss = ParsedCssFile.parseCssFile(getServletContext(), hap).rewrittenCssFile;
 				response.setContentType(ContentType.CSS);
 				response.setCharacterEncoding(CSS_ENCODING.name());
-				if(request.getAttribute(RequestDispatcher.INCLUDE_SERVLET_PATH) != null) {
+				if(ScopeEE.Request.INCLUDE_SERVLET_PATH.context(request).get() != null) {
 					// When included, write as characters for compatibility
 					response.getWriter().write(new String(rewrittenCss, CSS_ENCODING));
 				} else {
