@@ -256,7 +256,7 @@ along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses /
 			<!-- javaee-web-api-bom: <groupId>javax.servlet.jsp</groupId><artifactId>javax.servlet.jsp-api</artifactId> -->
 			<!-- Transitive -->
 			<dependency>
-				<groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId><version>3.0.0-SNAPSHOT<!-- ${POST-SNAPSHOT} --></version>
+				<groupId>com.aoapps</groupId><artifactId>ao-collections</artifactId><version>3.0.0${POST-SNAPSHOT}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.aoapps</groupId><artifactId>ao-tempfiles</artifactId><version>3.0.0${POST-SNAPSHOT}</version>
