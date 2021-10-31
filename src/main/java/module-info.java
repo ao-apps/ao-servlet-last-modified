@@ -18,7 +18,7 @@
  * GNU Lesser General Public License for more details.
  *
  * You should have received a copy of the GNU Lesser General Public License
- * along with ao-servlet-last-modified.  If not, see <http://www.gnu.org/licenses/>.
+ * along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.aoapps.servlet.lastmodified {
 	exports com.aoapps.servlet.lastmodified;
