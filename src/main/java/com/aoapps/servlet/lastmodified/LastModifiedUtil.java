@@ -40,10 +40,10 @@ import javax.servlet.jsp.PageContext;
  *
  * @see HttpServletUtil
  */
-public class LastModifiedUtil {
+public abstract class LastModifiedUtil {
 
-	private LastModifiedUtil() {
-	}
+	/** Make no instances. */
+	private LastModifiedUtil() {throw new AssertionError();}
 
 	/**
 	 * @see  HttpServletUtil#buildRedirectURL(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, com.aoapps.net.URIParameters, com.aoapps.servlet.http.HttpServletUtil.UrlModifier, boolean, boolean)

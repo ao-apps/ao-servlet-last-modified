@@ -44,7 +44,7 @@ import javax.servlet.http.HttpServletResponse;
  * </p>
  * <pre>
  * Init Parameters:
- *    cache-control: The content of the <code>cache-control</code> header, defaults to 
+ *    cache-control: The content of the <code>cache-control</code> header, defaults to
  * </pre>
  * <p>
  * See also:
@@ -55,7 +55,7 @@ import javax.servlet.http.HttpServletResponse;
  *   <li><a href="https://ashton.codes/set-cache-control-max-age-1-year/">Why we set a `Cache-Control: Max-Age` of 1 year</a></li>
  *   <li><a href="https://developers.google.com/web/tools/lighthouse/audits/cache-policy?utm_source=lighthouse&amp;utm_medium=devtools">Uses inefficient cache policy on static assets</a></li>
  * </ol>
- * 
+ *
  * @see  WildcardPatternMatcher  for supported patterns
  */
 public class LastModifiedCacheControlFilter implements Filter {
@@ -111,5 +111,6 @@ public class LastModifiedCacheControlFilter implements Filter {
 
 	@Override
 	public void destroy() {
+		// Do nothing
 	}
 }
