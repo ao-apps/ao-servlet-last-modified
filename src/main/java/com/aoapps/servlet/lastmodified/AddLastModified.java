@@ -30,40 +30,46 @@ import com.aoapps.servlet.http.Canonical;
  */
 public enum AddLastModified {
 
-	/**
-	 * Always tries to add last modified time.
-	 */
-	TRUE("true"),
+  /**
+   * Always tries to add last modified time.
+   */
+  TRUE("true"),
 
-	/**
-	 * Never tries to add last modified time.
-	 */
-	FALSE("false"),
+  /**
+   * Never tries to add last modified time.
+   */
+  FALSE("false"),
 
-	/**
-	 * Only tries to add last modified time to URLs that are both not
-	 * {@link Canonical} and match expected static resource files, by
-	 * extension.  This list is for the paths generally used for
-	 * distributing web content and may not include every possible static
-	 * file type.
-	 */
-	AUTO("auto");
+  /**
+   * Only tries to add last modified time to URLs that are both not
+   * {@link Canonical} and match expected static resource files, by
+   * extension.  This list is for the paths generally used for
+   * distributing web content and may not include every possible static
+   * file type.
+   */
+  AUTO("auto");
 
-	public static AddLastModified valueOfLowerName(String lowerName) {
-		if(TRUE .lowerName.equals(lowerName)) return TRUE;
-		if(FALSE.lowerName.equals(lowerName)) return FALSE;
-		if(AUTO .lowerName.equals(lowerName)) return AUTO;
-		// No match
-		throw new IllegalArgumentException(lowerName);
-	}
+  public static AddLastModified valueOfLowerName(String lowerName) {
+    if (TRUE .lowerName.equals(lowerName)) {
+      return TRUE;
+    }
+    if (FALSE.lowerName.equals(lowerName)) {
+      return FALSE;
+    }
+    if (AUTO .lowerName.equals(lowerName)) {
+      return AUTO;
+    }
+    // No match
+    throw new IllegalArgumentException(lowerName);
+  }
 
-	private final String lowerName;
+  private final String lowerName;
 
-	private AddLastModified(String lowerName) {
-		this.lowerName = lowerName;
-	}
+  private AddLastModified(String lowerName) {
+    this.lowerName = lowerName;
+  }
 
-	public String getLowerName() {
-		return lowerName;
-	}
+  public String getLowerName() {
+    return lowerName;
+  }
 }

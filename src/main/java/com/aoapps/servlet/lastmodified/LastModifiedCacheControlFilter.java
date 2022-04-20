@@ -61,57 +61,57 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class LastModifiedCacheControlFilter implements Filter {
 
-	/**
-	 * The default, very aggressive, <code>cache-control</code> header value.
-	 */
-	// In order documented at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
-	public static final String DEFAULT_CACHE_CONTROL =
-		// Cacheability
-		"public"
-		// Expiration (1 year = 365.25 days)
-		+ ",max-age=31557600"
-		//+ ",s-maxage=31557600" // Use same value for proxies
-		+ ",max-stale=31557600"
-		+ ",stale-while-revalidate=31557600"
-		+ ",stale-if-error=31557600"
-		// Revalidation and reloading
-		+ ",immutable";
+  /**
+   * The default, very aggressive, <code>cache-control</code> header value.
+   */
+  // In order documented at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
+  public static final String DEFAULT_CACHE_CONTROL =
+    // Cacheability
+    "public"
+    // Expiration (1 year = 365.25 days)
+    + ",max-age=31557600"
+    //+ ",s-maxage=31557600" // Use same value for proxies
+    + ",max-stale=31557600"
+    + ",stale-while-revalidate=31557600"
+    + ",stale-if-error=31557600"
+    // Revalidation and reloading
+    + ",immutable";
 
-	private String cacheControl;
+  private String cacheControl;
 
-	@Override
-	public void init(FilterConfig config) {
-		String cacheControlParam = Strings.trimNullIfEmpty(config.getInitParameter("cache-control"));
-		if(cacheControlParam == null) {
-			// Compatibility with old parameter case
-			cacheControlParam = Strings.trimNullIfEmpty(config.getInitParameter("Cache-Control"));
-		}
-		this.cacheControl = (cacheControlParam == null) ? DEFAULT_CACHE_CONTROL : cacheControlParam;
-	}
+  @Override
+  public void init(FilterConfig config) {
+    String cacheControlParam = Strings.trimNullIfEmpty(config.getInitParameter("cache-control"));
+    if (cacheControlParam == null) {
+      // Compatibility with old parameter case
+      cacheControlParam = Strings.trimNullIfEmpty(config.getInitParameter("Cache-Control"));
+    }
+    this.cacheControl = (cacheControlParam == null) ? DEFAULT_CACHE_CONTROL : cacheControlParam;
+  }
 
-	@Override
-	public void doFilter(
-		ServletRequest request,
-		ServletResponse response,
-		FilterChain chain
-	) throws IOException, ServletException {
-		if(
-			// Must be HTTP request
-			(request instanceof HttpServletRequest)
-			&& (response instanceof HttpServletResponse)
-		) {
-			HttpServletRequest httpRequest = (HttpServletRequest)request;
-			String lastModified = httpRequest.getParameter(LastModifiedServlet.LAST_MODIFIED_PARAMETER_NAME);
-			if(lastModified != null && !lastModified.isEmpty()) {
-				HttpServletResponse httpResponse = (HttpServletResponse)response;
-				httpResponse.setHeader("cache-control", cacheControl);
-			}
-		}
-		chain.doFilter(request, response);
-	}
+  @Override
+  public void doFilter(
+    ServletRequest request,
+    ServletResponse response,
+    FilterChain chain
+  ) throws IOException, ServletException {
+    if (
+      // Must be HTTP request
+      (request instanceof HttpServletRequest)
+      && (response instanceof HttpServletResponse)
+    ) {
+      HttpServletRequest httpRequest = (HttpServletRequest)request;
+      String lastModified = httpRequest.getParameter(LastModifiedServlet.LAST_MODIFIED_PARAMETER_NAME);
+      if (lastModified != null && !lastModified.isEmpty()) {
+        HttpServletResponse httpResponse = (HttpServletResponse)response;
+        httpResponse.setHeader("cache-control", cacheControl);
+      }
+    }
+    chain.doFilter(request, response);
+  }
 
-	@Override
-	public void destroy() {
-		// Do nothing
-	}
+  @Override
+  public void destroy() {
+    // Do nothing
+  }
 }
