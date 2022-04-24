@@ -128,20 +128,21 @@ public class LastModifiedServlet extends HttpServlet {
    */
   // In order documented at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
   public static final String DEFAULT_CACHE_CONTROL =
-    // Cacheability
-    "public"
-    // Expiration (5 minutes)
-    + ",max-age=300"
-    //+ ",s-maxage=300" // Use same value for proxies
-    + ",max-stale=300"
-    + ",stale-while-revalidate=300"
-    + ",stale-if-error=300";
+      // Cacheability
+      "public"
+          // Expiration (5 minutes)
+          + ",max-age=300"
+          //+ ",s-maxage=300" // Use same value for proxies
+          + ",max-stale=300"
+          + ",stale-while-revalidate=300"
+          + ",stale-if-error=300";
 
   /**
    * The name of the last modified parameter that is optionally added.
    * The value is URL-safe and does not need to be encoded.
    */
   public static final String LAST_MODIFIED_PARAMETER_NAME = "lastModified";
+
   static {
     assert LAST_MODIFIED_PARAMETER_NAME.equals(URIEncoder.encodeURIComponent(LAST_MODIFIED_PARAMETER_NAME)) : "The value is URL-safe and does not need to be encoded: " + LAST_MODIFIED_PARAMETER_NAME;
   }
@@ -193,10 +194,10 @@ public class LastModifiedServlet extends HttpServlet {
       if (!(obj instanceof HeaderAndPath)) {
         return false;
       }
-      HeaderAndPath other = (HeaderAndPath)obj;
+      HeaderAndPath other = (HeaderAndPath) obj;
       return
-        Objects.equals(header, other.header)
-        && path.equals(other.path)
+          Objects.equals(header, other.header)
+              && path.equals(other.path)
       ;
     }
 
@@ -215,7 +216,7 @@ public class LastModifiedServlet extends HttpServlet {
      * The attribute name used to store the cache.
      */
     private static final ScopeEE.Application.Attribute<ConcurrentMap<HeaderAndPath, ParsedCssFile>> APPLICATION_ATTRIBUTE =
-      ScopeEE.APPLICATION.attribute(ParsedCssFileCache.class.getName());
+        ScopeEE.APPLICATION.attribute(ParsedCssFileCache.class.getName());
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
@@ -235,8 +236,8 @@ public class LastModifiedServlet extends HttpServlet {
   private static class ParsedCssFile {
 
     private static final Pattern URL_PATTERN = Pattern.compile(
-      "url\\s*\\(\\s*(\\S+?)\\s*\\)",
-      Pattern.CASE_INSENSITIVE
+        "url\\s*\\(\\s*(\\S+?)\\s*\\)",
+        Pattern.CASE_INSENSITIVE
     );
 
     private static ParsedCssFile parseCssFile(ServletContext servletContext, HeaderAndPath hap) throws FileNotFoundException, IOException, URISyntaxException {
@@ -246,9 +247,9 @@ public class LastModifiedServlet extends HttpServlet {
       final long lastModified = servletContextCache.getLastModified(hap.path);
       ParsedCssFile parsedCssFile = parsedCssFileCache.get(hap);
       if (
-        parsedCssFile != null
-        && parsedCssFile.lastModified == lastModified
-        && !parsedCssFile.hasModifiedUrl(servletContextCache)
+          parsedCssFile != null
+              && parsedCssFile.lastModified == lastModified
+              && !parsedCssFile.hasModifiedUrl(servletContextCache)
       ) {
         return parsedCssFile;
       } else {
@@ -274,21 +275,21 @@ public class LastModifiedServlet extends HttpServlet {
           // Skip quotes at start
           char ch;
           while (
-            start < end
-            && (
-              (ch = cssContent.charAt(start)) == '"'
-              || ch == '\''
-            )
+              start < end
+                  && (
+                  (ch = cssContent.charAt(start)) == '"'
+                      || ch == '\''
+              )
           ) {
             start++;
           }
           // Skip quotes at end
           while (
-            start < end
-            && (
-              (ch = cssContent.charAt(end - 1)) == '"'
-              || ch == '\''
-            )
+              start < end
+                  && (
+                  (ch = cssContent.charAt(end - 1)) == '"'
+                      || ch == '\''
+              )
           ) {
             end--;
           }
@@ -309,23 +310,23 @@ public class LastModifiedServlet extends HttpServlet {
             String resourcePath = URIResolver.getAbsolutePath(hap.path, noFragmentUri.toString());
             if (resourcePath.startsWith("/")) {
               URI resourcePathURI = new URI(
-                URIEncoder.encodeURI(
-                  resourcePath
-                )
+                  URIEncoder.encodeURI(
+                      resourcePath
+                  )
               );
               HeaderAndPath resourceHap = new HeaderAndPath(
-                hap.header,
-                resourcePathURI.getPath()
+                  hap.header,
+                  resourcePathURI.getPath()
               );
               // TODO: If the resource is *.css, apply recursively (with a Set used to catch duplicates to avoid stack overflow - just don't recurse when already visited)
               long resourceModified = servletContextCache.getLastModified(resourceHap.path);
               if (resourceModified != 0) {
                 referencedPaths.put(resourceHap, resourceModified);
                 newContent
-                  .append(noFragmentUri.hasQuery() ? '&' : '?')
-                  .append(LAST_MODIFIED_PARAMETER_NAME)
-                  .append('=')
-                  .append(encodeLastModified(resourceModified))
+                    .append(noFragmentUri.hasQuery() ? '&' : '?')
+                    .append(LAST_MODIFIED_PARAMETER_NAME)
+                    .append('=')
+                    .append(encodeLastModified(resourceModified))
                 ;
               }
             }
@@ -339,10 +340,10 @@ public class LastModifiedServlet extends HttpServlet {
         }
         newContent.append(cssContent, lastEnd, cssContent.length());
         parsedCssFile = new ParsedCssFile(
-          servletContextCache,
-          lastModified,
-          newContent.toString().getBytes(CSS_ENCODING),
-          referencedPaths
+            servletContextCache,
+            lastModified,
+            newContent.toString().getBytes(CSS_ENCODING),
+            referencedPaths
         );
         parsedCssFileCache.put(hap, parsedCssFile);
         return parsedCssFile;
@@ -370,10 +371,10 @@ public class LastModifiedServlet extends HttpServlet {
     private final long newestLastModified;
 
     private ParsedCssFile(
-      ServletContextCache servletContextCache,
-      long lastModified,
-      byte[] rewrittenCssFile,
-      Map<HeaderAndPath, Long> referencedPaths
+        ServletContextCache servletContextCache,
+        long lastModified,
+        byte[] rewrittenCssFile,
+        Map<HeaderAndPath, Long> referencedPaths
     ) {
       this.lastModified = lastModified;
       this.referencedPaths = referencedPaths;
@@ -438,10 +439,10 @@ public class LastModifiedServlet extends HttpServlet {
    */
   public static long getLastModified(ServletContext servletContext, HttpServletRequest request, String path) {
     return getLastModified(
-      servletContext,
-      request,
-      path,
-      FileUtils.getExtension(path)
+        servletContext,
+        request,
+        path,
+        FileUtils.getExtension(path)
     );
   }
 
@@ -449,61 +450,61 @@ public class LastModifiedServlet extends HttpServlet {
    * Fetched some from <a href="https://wikipedia.org/wiki/List_of_file_formats">https://wikipedia.org/wiki/List_of_file_formats</a>
    */
   private static final Set<String> staticExtensions = new HashSet<>(
-    // Related to LocaleFilter.java
-    // Related to NoSessionFilter.java
-    // Related to SessionResponseWrapper.java
-    // Is LastModifiedServlet.java
-    // Matches ao-mime-mappings/…/web-fragment.xml
-    // Related to ContentType.java
-    // Related to MimeType.java
-    Arrays.asList(
-      // CSS
-      "css",
-      // Diagrams
-      "dia",
-      // Java
-      "jar",
-      "class",
-      "jnlp",
-      "tld",
-      // JavaScript
-      "js",
-      "spt",
-      "jsfl",
-      // Image types
-      "bmp",
-      "exif",
-      "gif",
-      "ico",
-      "jfif",
-      "jpg",
-      "jpeg",
-      "jpe",
-      "mng",
-      "nitf",
-      "png",
-      "svg",
-      "tif",
-      "tiff",
-      "webp",
-      // HTML document: Not included since causes duplicate content URLs
-      //"htm",
-      //"html",
-      //"xhtml",
-      //"mhtml",
-      // PDF document
-      "pdf",
-      // XML document
-      "xml",
-      "xsd",
-      "rss",
-      // Web development
-      "less",
-      "sass",
-      "scss",
-      "css.map",
-      "js.map"
-    )
+      // Related to LocaleFilter.java
+      // Related to NoSessionFilter.java
+      // Related to SessionResponseWrapper.java
+      // Is LastModifiedServlet.java
+      // Matches ao-mime-mappings/…/web-fragment.xml
+      // Related to ContentType.java
+      // Related to MimeType.java
+      Arrays.asList(
+          // CSS
+          "css",
+          // Diagrams
+          "dia",
+          // Java
+          "jar",
+          "class",
+          "jnlp",
+          "tld",
+          // JavaScript
+          "js",
+          "spt",
+          "jsfl",
+          // Image types
+          "bmp",
+          "exif",
+          "gif",
+          "ico",
+          "jfif",
+          "jpg",
+          "jpeg",
+          "jpe",
+          "mng",
+          "nitf",
+          "png",
+          "svg",
+          "tif",
+          "tiff",
+          "webp",
+          // HTML document: Not included since causes duplicate content URLs
+          //"htm",
+          //"html",
+          //"xhtml",
+          //"mhtml",
+          // PDF document
+          "pdf",
+          // XML document
+          "xml",
+          "xsd",
+          "rss",
+          // Web development
+          "less",
+          "sass",
+          "scss",
+          "css.map",
+          "js.map"
+      )
   );
 
   /**
@@ -523,19 +524,19 @@ public class LastModifiedServlet extends HttpServlet {
     if (when != AddLastModified.FALSE) {
       // Get the context-relative path (resolves relative paths)
       String resourcePath = URIResolver.getAbsolutePath(
-        servletPath,
-        url
+          servletPath,
+          url
       );
       if (resourcePath.startsWith("/")) {
         // Strip parameters and anchor from resourcePath
         try {
           resourcePath = new URI(
-            URIEncoder.encodeURI(
-              resourcePath.substring(
-                0,
-                URIParser.getPathEnd(resourcePath)
+              URIEncoder.encodeURI(
+                  resourcePath.substring(
+                      0,
+                      URIParser.getPathEnd(resourcePath)
+                  )
               )
-            )
           ).getPath();
         } catch (URISyntaxException e) {
           MalformedURLException urlErr = new MalformedURLException(e.getMessage());
@@ -551,12 +552,12 @@ public class LastModifiedServlet extends HttpServlet {
         } else {
           assert when == AddLastModified.AUTO;
           if (
-            // No extension
-            extension == null
-            // Check for header disabling auto last modified
-            || "false".equalsIgnoreCase(request.getHeader(LAST_MODIFIED_HEADER_NAME))
-            // Will not modify Canonical URLs
-            || Canonical.get()
+              // No extension
+              extension == null
+                  // Check for header disabling auto last modified
+                  || "false".equalsIgnoreCase(request.getHeader(LAST_MODIFIED_HEADER_NAME))
+                  // Will not modify Canonical URLs
+                  || Canonical.get()
           ) {
             doAdd = false;
           } else {
@@ -578,8 +579,8 @@ public class LastModifiedServlet extends HttpServlet {
           long lastModified = getLastModified(servletContext, request, resourcePath, extension);
           if (lastModified != 0) {
             url = new AnyURI(url)
-              .addEncodedParameter(LAST_MODIFIED_PARAMETER_NAME, encodeLastModified(lastModified))
-              .toString();
+                .addEncodedParameter(LAST_MODIFIED_PARAMETER_NAME, encodeLastModified(lastModified))
+                .toString();
           }
         }
       }
@@ -604,9 +605,9 @@ public class LastModifiedServlet extends HttpServlet {
   protected long getLastModified(HttpServletRequest request) {
     // Find the underlying file
     long lastModified = getLastModified(
-      getServletContext(),
-      request,
-      Dispatcher.getCurrentPagePath(request)
+        getServletContext(),
+        request,
+        Dispatcher.getCurrentPagePath(request)
     );
     return lastModified == 0 ? -1 : lastModified;
   }
@@ -617,8 +618,8 @@ public class LastModifiedServlet extends HttpServlet {
     try {
       // Find the underlying file
       HeaderAndPath hap = new HeaderAndPath(
-        request,
-        Dispatcher.getCurrentPagePath(request)
+          request,
+          Dispatcher.getCurrentPagePath(request)
       );
       String extension = FileUtils.getExtension(hap.path);
       if (CSS_EXTENSION.equalsIgnoreCase(extension)) {

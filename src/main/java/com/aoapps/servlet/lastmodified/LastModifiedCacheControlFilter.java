@@ -66,16 +66,16 @@ public class LastModifiedCacheControlFilter implements Filter {
    */
   // In order documented at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
   public static final String DEFAULT_CACHE_CONTROL =
-    // Cacheability
-    "public"
-    // Expiration (1 year = 365.25 days)
-    + ",max-age=31557600"
-    //+ ",s-maxage=31557600" // Use same value for proxies
-    + ",max-stale=31557600"
-    + ",stale-while-revalidate=31557600"
-    + ",stale-if-error=31557600"
-    // Revalidation and reloading
-    + ",immutable";
+      // Cacheability
+      "public"
+          // Expiration (1 year = 365.25 days)
+          + ",max-age=31557600"
+          //+ ",s-maxage=31557600" // Use same value for proxies
+          + ",max-stale=31557600"
+          + ",stale-while-revalidate=31557600"
+          + ",stale-if-error=31557600"
+          // Revalidation and reloading
+          + ",immutable";
 
   private String cacheControl;
 
@@ -91,19 +91,19 @@ public class LastModifiedCacheControlFilter implements Filter {
 
   @Override
   public void doFilter(
-    ServletRequest request,
-    ServletResponse response,
-    FilterChain chain
+      ServletRequest request,
+      ServletResponse response,
+      FilterChain chain
   ) throws IOException, ServletException {
     if (
-      // Must be HTTP request
-      (request instanceof HttpServletRequest)
-      && (response instanceof HttpServletResponse)
+        // Must be HTTP request
+        (request instanceof HttpServletRequest)
+            && (response instanceof HttpServletResponse)
     ) {
-      HttpServletRequest httpRequest = (HttpServletRequest)request;
+      HttpServletRequest httpRequest = (HttpServletRequest) request;
       String lastModified = httpRequest.getParameter(LastModifiedServlet.LAST_MODIFIED_PARAMETER_NAME);
       if (lastModified != null && !lastModified.isEmpty()) {
-        HttpServletResponse httpResponse = (HttpServletResponse)response;
+        HttpServletResponse httpResponse = (HttpServletResponse) response;
         httpResponse.setHeader("cache-control", cacheControl);
       }
     }
