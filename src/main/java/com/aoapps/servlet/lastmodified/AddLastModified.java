@@ -50,13 +50,13 @@ public enum AddLastModified {
   AUTO("auto");
 
   public static AddLastModified valueOfLowerName(String lowerName) {
-    if (TRUE .lowerName.equals(lowerName)) {
+    if (TRUE.lowerName.equals(lowerName)) {
       return TRUE;
     }
     if (FALSE.lowerName.equals(lowerName)) {
       return FALSE;
     }
-    if (AUTO .lowerName.equals(lowerName)) {
+    if (AUTO.lowerName.equals(lowerName)) {
       return AUTO;
     }
     // No match
