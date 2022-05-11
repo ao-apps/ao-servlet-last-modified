@@ -31,8 +31,8 @@ import com.aoapps.net.AnyURI;
 import com.aoapps.net.URIEncoder;
 import com.aoapps.net.URIParser;
 import com.aoapps.net.URIResolver;
-import com.aoapps.servlet.attribute.ScopeEE;
 import com.aoapps.servlet.ServletContextCache;
+import com.aoapps.servlet.attribute.ScopeEE;
 import com.aoapps.servlet.http.Canonical;
 import com.aoapps.servlet.http.Dispatcher;
 import java.io.BufferedReader;
@@ -197,8 +197,7 @@ public class LastModifiedServlet extends HttpServlet {
       HeaderAndPath other = (HeaderAndPath) obj;
       return
           Objects.equals(header, other.header)
-              && path.equals(other.path)
-      ;
+              && path.equals(other.path);
     }
 
     @Override
@@ -209,7 +208,10 @@ public class LastModifiedServlet extends HttpServlet {
     }
   }
 
-  @WebListener("Creates the ParsedCssFile cache on application start")
+  /**
+   * Creates the {@link ParsedCssFile} cache during {@linkplain ServletContextListener application start-up}.
+   */
+  @WebListener("Creates the ParsedCssFile cache during application start-up.")
   public static class ParsedCssFileCache implements ServletContextListener {
 
     /**
@@ -229,7 +231,7 @@ public class LastModifiedServlet extends HttpServlet {
     }
 
     private static ConcurrentMap<HeaderAndPath, ParsedCssFile> getCache(ServletContext servletContext) {
-      return APPLICATION_ATTRIBUTE.context(servletContext).computeIfAbsent(__ -> new ConcurrentHashMap<>());
+      return APPLICATION_ATTRIBUTE.context(servletContext).computeIfAbsent(name -> new ConcurrentHashMap<>());
     }
   }
 
@@ -255,15 +257,15 @@ public class LastModifiedServlet extends HttpServlet {
       } else {
         // (Re)parse the file
         String cssContent;
-        {
-          InputStream resourceIn = servletContext.getResourceAsStream(hap.path);
-          if (resourceIn == null) {
-            throw new FileNotFoundException(hap.path);
+          {
+            InputStream resourceIn = servletContext.getResourceAsStream(hap.path);
+            if (resourceIn == null) {
+              throw new FileNotFoundException(hap.path);
+            }
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(resourceIn, CSS_ENCODING))) {
+              cssContent = IoUtils.readFully(in);
+            }
           }
-          try (BufferedReader in = new BufferedReader(new InputStreamReader(resourceIn, CSS_ENCODING))) {
-            cssContent = IoUtils.readFully(in);
-          }
-        }
         // Replace values while capturing URLs
         StringBuilder newContent = new StringBuilder(cssContent.length() << 1);
         Map<HeaderAndPath, Long> referencedPaths = new HashMap<>();
@@ -326,8 +328,7 @@ public class LastModifiedServlet extends HttpServlet {
                     .append(noFragmentUri.hasQuery() ? '&' : '?')
                     .append(LAST_MODIFIED_PARAMETER_NAME)
                     .append('=')
-                    .append(encodeLastModified(resourceModified))
-                ;
+                    .append(encodeLastModified(resourceModified));
               }
             }
           }
@@ -447,7 +448,7 @@ public class LastModifiedServlet extends HttpServlet {
   }
 
   /**
-   * Fetched some from <a href="https://wikipedia.org/wiki/List_of_file_formats">https://wikipedia.org/wiki/List_of_file_formats</a>
+   * Fetched some from <a href="https://wikipedia.org/wiki/List_of_file_formats">https://wikipedia.org/wiki/List_of_file_formats</a>.
    */
   private static final Set<String> staticExtensions = new HashSet<>(
       // Related to LocaleFilter.java

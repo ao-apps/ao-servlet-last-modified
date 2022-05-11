@@ -49,6 +49,9 @@ public enum AddLastModified {
    */
   AUTO("auto");
 
+  /**
+   * Gets the enum value for the given lower-case name.
+   */
   public static AddLastModified valueOfLowerName(String lowerName) {
     if (TRUE.lowerName.equals(lowerName)) {
       return TRUE;
