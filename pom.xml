@@ -119,6 +119,15 @@ along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId><artifactId>maven-dependency-plugin</artifactId>
+        <configuration>
+          <usedDependencies>
+            <!-- Javadoc-only -->
+            <dependency>com.aoapps:ao-hodgepodge</dependency>
+          </usedDependencies>
+        </configuration>
+      </plugin>
       <!-- Java 1.8: see https://maven.apache.org/plugins/maven-compiler-plugin/examples/module-info.html -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId>
@@ -283,6 +292,8 @@ along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/
     <!-- Direct -->
     <dependency>
       <groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId>
+      <!-- Javadoc-only -->
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>

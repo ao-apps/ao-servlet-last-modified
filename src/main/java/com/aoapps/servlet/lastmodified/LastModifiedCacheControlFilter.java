@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2019, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -23,7 +23,6 @@
 
 package com.aoapps.servlet.lastmodified;
 
-import com.aoapps.hodgepodge.util.WildcardPatternMatcher;
 import com.aoapps.lang.Strings;
 import java.io.IOException;
 import javax.servlet.DispatcherType;
@@ -57,7 +56,7 @@ import javax.servlet.http.HttpServletResponse;
  *   <li><a href="https://developers.google.com/web/tools/lighthouse/audits/cache-policy?utm_source=lighthouse&amp;utm_medium=devtools">Uses inefficient cache policy on static assets</a></li>
  * </ol>
  *
- * @see  WildcardPatternMatcher  for supported patterns
+ * @see  com.aoapps.hodgepodge.util.WildcardPatternMatcher  for supported patterns
  */
 public class LastModifiedCacheControlFilter implements Filter {
 
