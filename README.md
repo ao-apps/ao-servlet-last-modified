@@ -23,7 +23,7 @@ Automatically adds lastModified URL parameters to ensure latest resources always
 * [Project Home](https://oss.aoapps.com/servlet-last-modified/)
 * [Changelog](https://oss.aoapps.com/servlet-last-modified/changelog)
 * [API Docs](https://oss.aoapps.com/servlet-last-modified/apidocs/)
-* [Maven Central Repository](https://search.maven.org/artifact/com.aoapps/ao-servlet-last-modified)
+* [Maven Central Repository](https://central.sonatype.com/search?namespace=com.aoapps&q=a%3Aao-servlet-last-modified)
 * [GitHub](https://github.com/ao-apps/ao-servlet-last-modified)
 
 ## Contact Us
