@@ -44,7 +44,8 @@ import javax.servlet.http.HttpServletResponse;
  * </p>
  * <pre>
  * Init Parameters:
- *    cache-control: The content of the <code>cache-control</code> header, defaults to
+ *    cache-control: The content of the <code>cache-control</code> header,
+ *                   defaults to <code>{@value LastModifiedCacheControlFilter#DEFAULT_CACHE_CONTROL}</code>
  * </pre>
  * <p>
  * See also:
