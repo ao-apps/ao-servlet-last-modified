@@ -57,7 +57,7 @@ import javax.servlet.http.HttpServletResponse;
  *   <li><a href="https://web.dev/stale-while-revalidate">Keeping things fresh with stale-while-revalidate</a></li>
  *   <li><a href="https://ashton.codes/set-cache-control-max-age-1-year/">Why we set a `Cache-Control: Max-Age` of 1 year</a></li>
  *   <li><a href="https://developers.google.com/web/tools/lighthouse/audits/cache-policy?utm_source=lighthouse&amp;utm_medium=devtools">Uses inefficient cache policy on static assets</a></li>
- *   <li><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls">How to Specify a Canonical with rel=&qout;canonical&qout; and Other Methods</a></li>
+ *   <li><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls">How to Specify a Canonical with rel="canonical" and Other Methods</a></li>
  * </ol>
  *
  * @see  com.aoapps.hodgepodge.util.WildcardPatternMatcher  for supported patterns
