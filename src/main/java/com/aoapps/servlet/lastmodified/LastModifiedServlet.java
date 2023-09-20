@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020, 2021, 2022  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -123,7 +123,7 @@ public class LastModifiedServlet extends HttpServlet {
    * <p>
    * Only used when the <code>cache-control</code> header has not already been
    * set, which will normally already be set to a much more aggressive value by
-   * {@link LastModifiedCacheControlFilter}.
+   * {@link LastModifiedHeaderFilter}.
    * </p>
    */
   // In order documented at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control

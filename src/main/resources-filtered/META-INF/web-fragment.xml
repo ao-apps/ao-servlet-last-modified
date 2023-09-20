@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
-Copyright (C) 2020, 2021, 2022  AO Industries, Inc.
+Copyright (C) 2020, 2021, 2022, 2023  AO Industries, Inc.
     support@aoindustries.com
     7262 Bull Pen Cir
     Mobile, AL 36695
@@ -41,8 +41,8 @@ along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/
       <a href="https://oss.aoapps.com/servlet-last-modified/apidocs/com.aoapps.servlet.lastmodified/com/aoapps/servlet/lastmodified/LastModifiedServlet.html#LAST_MODIFIED_PARAMETER_NAME">LAST_MODIFIED_PARAMETER_NAME</a>
       parameter.
     ]]></description>
-    <filter-name>com.aoapps.servlet.lastmodified.LastModifiedCacheControlFilter</filter-name>
-    <filter-class>com.aoapps.servlet.lastmodified.LastModifiedCacheControlFilter</filter-class>
+    <filter-name>com.aoapps.servlet.lastmodified.LastModifiedHeaderFilter</filter-name>
+    <filter-class>com.aoapps.servlet.lastmodified.LastModifiedHeaderFilter</filter-class>
     <init-param>
       <description><![CDATA[
         The value for the <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a> header.
@@ -53,7 +53,7 @@ along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/
     </init-param>
   </filter>
   <filter-mapping>
-    <filter-name>com.aoapps.servlet.lastmodified.LastModifiedCacheControlFilter</filter-name>
+    <filter-name>com.aoapps.servlet.lastmodified.LastModifiedHeaderFilter</filter-name>
     <url-pattern>/*</url-pattern>
     <dispatcher>REQUEST</dispatcher>
     <dispatcher>ERROR</dispatcher>

@@ -24,6 +24,7 @@
 package com.aoapps.servlet.lastmodified;
 
 import com.aoapps.lang.Strings;
+import com.aoapps.net.URIEncoder;
 import java.io.IOException;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -36,16 +37,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Adds a <code><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a></code>
- * header to any request with a {@link LastModifiedServlet#LAST_MODIFIED_PARAMETER_NAME} parameter.
- * The header is added before the filter chain is called.
+ * Adds <code><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a></code>
+ * and <code><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls">Link: &lt;…&gt;; rel="canonical"</a></code>
+ * headers to any request with a {@link LastModifiedServlet#LAST_MODIFIED_PARAMETER_NAME} parameter.
+ * The headers are added before the filter chain is called.
  * <p>
  * This should be used for the {@link DispatcherType#REQUEST} dispatcher only.
  * </p>
  * <pre>
  * Init Parameters:
  *    cache-control: The content of the <code>cache-control</code> header,
- *                   defaults to <code>{@value LastModifiedCacheControlFilter#DEFAULT_CACHE_CONTROL}</code>
+ *                   defaults to <code>{@value LastModifiedHeaderFilter#DEFAULT_CACHE_CONTROL}</code>
  * </pre>
  * <p>
  * See also:
@@ -55,11 +57,12 @@ import javax.servlet.http.HttpServletResponse;
  *   <li><a href="https://web.dev/stale-while-revalidate">Keeping things fresh with stale-while-revalidate</a></li>
  *   <li><a href="https://ashton.codes/set-cache-control-max-age-1-year/">Why we set a `Cache-Control: Max-Age` of 1 year</a></li>
  *   <li><a href="https://developers.google.com/web/tools/lighthouse/audits/cache-policy?utm_source=lighthouse&amp;utm_medium=devtools">Uses inefficient cache policy on static assets</a></li>
+ *   <li><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls">How to Specify a Canonical with rel=&qout;canonical&qout; and Other Methods</a></li>
  * </ol>
  *
  * @see  com.aoapps.hodgepodge.util.WildcardPatternMatcher  for supported patterns
  */
-public class LastModifiedCacheControlFilter implements Filter {
+public class LastModifiedHeaderFilter implements Filter {
 
   /**
    * The default, very aggressive, <code>cache-control</code> header value.
@@ -105,6 +108,17 @@ public class LastModifiedCacheControlFilter implements Filter {
       if (lastModified != null && !lastModified.isEmpty()) {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         httpResponse.setHeader("cache-control", cacheControl);
+        // The canonical URL is the request URL without any query string.  lastModified headers are typically added to
+        // static file-based resources, and thus the canonical URL is a direct reference to the file.  The presence of
+        // any other parameters is not considered.
+        final String pre = "<";
+        final String post = ">; rel=\"canonical\"";
+        StringBuffer requestUrl = httpRequest.getRequestURL();
+        StringBuilder canonicalHeader = new StringBuilder(pre.length() + requestUrl.length() + post.length());
+        canonicalHeader.append(pre);
+        URIEncoder.encodeURI(requestUrl.toString(), canonicalHeader);
+        canonicalHeader.append(post);
+        httpResponse.setHeader("Link", canonicalHeader.toString());
       }
     }
     chain.doFilter(request, response);
