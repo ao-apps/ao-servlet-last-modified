@@ -37,7 +37,7 @@ along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/
   <!-- Add cache-control header to requests with lastModified parameter -->
   <filter>
     <description><![CDATA[
-      Adds a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a> header to any request with a 
+      Adds a <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">cache-control</a> header to any request with a
       <a href="https://oss.aoapps.com/servlet-last-modified/apidocs/com.aoapps.servlet.lastmodified/com/aoapps/servlet/lastmodified/LastModifiedServlet.html#LAST_MODIFIED_PARAMETER_NAME">LAST_MODIFIED_PARAMETER_NAME</a>
       parameter.
     ]]></description>
