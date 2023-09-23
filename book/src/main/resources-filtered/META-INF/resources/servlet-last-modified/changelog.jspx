@@ -37,9 +37,9 @@ along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/
     shortTitle="Changelog"
     tocLevels="1"
     datePublished="2020-02-24T16:06:23-06:00"
-    dateModified="2023-09-20T00:18:05Z"
+    dateModified="2023-09-23T20:21:21Z"
   >
-    <c:set var="latestRelease" value="2.0.1" />
+    <c:set var="latestRelease" value="3.0.0" />
     <c:if test="${
       fn:endsWith('@{project.version}', '-SNAPSHOT')
       and !fn:endsWith('@{project.version}', '-POST-SNAPSHOT')
@@ -52,27 +52,36 @@ along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/
         artifactId="@{documented.artifactId}"
         repository="@{nexusUrl}content/repositories/snapshots/"
         scmUrl="@{project.scm.url}"
-      >
-        <ul>
-          <li>
-            <p>
-              Add <code><ao:a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls">Link: <![CDATA[&lt;…&gt;]]>; rel="canonical"</ao:a></code>
-              headers to any request containing the <code>lastModified</code> parameter.
-            </p>
-            <p>
-              The canonical URL is the request URL without any query string.  <code>lastModified</code> headers are
-              typically added to static file-based resources, and thus the canonical URL is a direct reference to the
-              file.  The presence of any other parameters is not considered.
-            </p>
-            <p>
-              This is a major version bump due to renaming <code>LastModifiedCacheControlFilter</code> to
-              <code>LastModifiedHeaderFilter</code>.  Any direct references must be updated.  Any application using
-              this feature via <code>META-INF/web-fragment.xml</code> will not need any changes.
-            </p>
-          </li>
-        </ul>
-      </changelog:release>
+      />
     </c:if>
+
+    <changelog:release
+      projectName="@{documented.name}"
+      version="3.0.0"
+      datePublished="2023-09-23T20:21:21Z"
+      groupId="@{project.groupId}"
+      artifactId="@{documented.artifactId}"
+      scmUrl="@{project.scm.url}"
+    >
+      <ul>
+        <li>
+          <p>
+            Add <code><ao:a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls">Link: <![CDATA[&lt;…&gt;]]>; rel="canonical"</ao:a></code>
+            headers to any request containing the <code>lastModified</code> parameter.
+          </p>
+          <p>
+            The canonical URL is the request URL without any query string.  <code>lastModified</code> headers are
+            typically added to static file-based resources, and thus the canonical URL is a direct reference to the
+            file.  The presence of any other parameters is not considered.
+          </p>
+          <p>
+            This is a major version bump due to renaming <code>LastModifiedCacheControlFilter</code> to
+            <code>LastModifiedHeaderFilter</code>.  Any direct references must be updated.  Any application using
+            this feature via <code>META-INF/web-fragment.xml</code> will not need any changes.
+          </p>
+        </li>
+      </ul>
+    </changelog:release>
 
     <changelog:release
       projectName="@{documented.name}"
