@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
+ * Copyright (C) 2019, 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -41,17 +41,15 @@ import javax.servlet.http.HttpServletResponse;
  * and <code><a href="https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls">Link: &lt;…&gt;; rel="canonical"</a></code>
  * headers to any request with a {@link LastModifiedServlet#LAST_MODIFIED_PARAMETER_NAME} parameter.
  * The headers are added before the filter chain is called.
- * <p>
- * This should be used for the {@link DispatcherType#REQUEST} dispatcher only.
- * </p>
- * <pre>
- * Init Parameters:
+ *
+ * <p>This should be used for the {@link DispatcherType#REQUEST} dispatcher only.</p>
+ *
+ * <pre>Init Parameters:
  *    cache-control: The content of the <code>cache-control</code> header,
- *                   defaults to <code>{@value LastModifiedHeaderFilter#DEFAULT_CACHE_CONTROL}</code>
- * </pre>
- * <p>
- * See also:
- * </p>
+ *                   defaults to <code>{@value LastModifiedHeaderFilter#DEFAULT_CACHE_CONTROL}</code></pre>
+ *
+ * <p>See also:</p>
+ *
  * <ol>
  *   <li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">Cache-Control - HTTP | MDN</a></li>
  *   <li><a href="https://web.dev/stale-while-revalidate">Keeping things fresh with stale-while-revalidate</a></li>

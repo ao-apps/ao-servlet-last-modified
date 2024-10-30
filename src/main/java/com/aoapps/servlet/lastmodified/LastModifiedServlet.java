@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020, 2021, 2022, 2023  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -71,34 +71,28 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Sets the modified time to that of the file itself and all dependencies.
  * Currently only *.css supported.
- * <p>
- * When mapped to handle *.css files, parses the underlying file from the web
+ *
+ * <p>When mapped to handle *.css files, parses the underlying file from the web
  * resources and automatically adds lastModified=#### URL parameters.  This allows
  * the replacement of files to be immediately visible to browsers while still
- * efficiently caching when nothing changed.
- * </p>
- * <p>
- * The current CSS parser is extremely simple and may not catch all URLs.
+ * efficiently caching when nothing changed.</p>
+ *
+ * <p>The current CSS parser is extremely simple and may not catch all URLs.
  * Specifically, it only looks for URLs on a line-by-line basis and does not
- * support backslash (\) escapes. (TODO: Are backslash escapes even part of CSS?)
- * </p>
- * <p>
- * TODO: Handle escapes, which might require a parser more complicated than this regular expression,
+ * support backslash (\) escapes. (TODO: Are backslash escapes even part of CSS?)</p>
+ *
+ * <p>TODO: Handle escapes, which might require a parser more complicated than this regular expression,
  * including escaped quotes in quotes, or escaped parenthesis:
  * <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/url()">https://developer.mozilla.org/en-US/docs/Web/CSS/url()</a>,
- * <a href="https://stackoverflow.com/questions/25613552/how-should-i-escape-image-urls-for-css">https://stackoverflow.com/questions/25613552/how-should-i-escape-image-urls-for-css</a>.
- * </p>
- * <p>
- * All files must be in the {@link StandardCharsets#UTF_8} encoding.
- * </p>
- * <p>
- * TODO: Add support for non-url imports
- * TODO: Review recursive import url(...) works correctly (urls within the included urls should be applied)
- * </p>
- * <p>
- * TODO: Rewrite all URLs to be app-relative, with contextPath prefixed, much like how other URLs are rewritten.
- * This is so paths will still be relative to the CSS file even when included into a page directly.
- * </p>
+ * <a href="https://stackoverflow.com/questions/25613552/how-should-i-escape-image-urls-for-css">https://stackoverflow.com/questions/25613552/how-should-i-escape-image-urls-for-css</a>.</p>
+ *
+ * <p>All files must be in the {@link StandardCharsets#UTF_8} encoding.</p>
+ *
+ * <p>TODO: Add support for non-url imports
+ * TODO: Review recursive import url(...) works correctly (urls within the included urls should be applied)</p>
+ *
+ * <p>TODO: Rewrite all URLs to be app-relative, with contextPath prefixed, much like how other URLs are rewritten.
+ * This is so paths will still be relative to the CSS file even when included into a page directly.</p>
  *
  * @see  ServletContextCache  This requires the cache be active
  */
@@ -120,11 +114,10 @@ public class LastModifiedServlet extends HttpServlet {
 
   /**
    * The default, short-term, <code>cache-control</code> header value.
-   * <p>
-   * Only used when the <code>cache-control</code> header has not already been
+   *
+   * <p>Only used when the <code>cache-control</code> header has not already been
    * set, which will normally already be set to a much more aggressive value by
-   * {@link LastModifiedHeaderFilter}.
-   * </p>
+   * {@link LastModifiedHeaderFilter}.</p>
    */
   // In order documented at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control
   public static final String DEFAULT_CACHE_CONTROL =
@@ -405,15 +398,12 @@ public class LastModifiedServlet extends HttpServlet {
   }
 
   /**
-   * <p>
    * Gets a last modified time given a context-relative path starting with a
    * slash (/).
-   * </p>
-   * <p>
-   * Any file ending in ".css" (case-insensitive) will be parsed and will have
+   *
+   * <p>Any file ending in ".css" (case-insensitive) will be parsed and will have
    * a modified time that is equal to the greatest of itself or any referenced
-   * URL.
-   * </p>
+   * URL.</p>
    *
    * @return  the modified time or <code>0</code> when unknown.
    */
@@ -509,16 +499,12 @@ public class LastModifiedServlet extends HttpServlet {
   );
 
   /**
-   * <p>
    * Adds a last modified time (to the nearest second) to a URL if the resource is directly available
    * as a local resource.  Only applies to relative URLs (./, ../) or URLs that begin with a slash (/).
-   * </p>
-   * <p>
-   * Will not modify when the request has header {@link #LAST_MODIFIED_HEADER_NAME} equal to "false".
-   * </p>
-   * <p>
-   * Will not modify {@linkplain Canonical Canonical URLs}.
-   * </p>
+   *
+   * <p>Will not modify when the request has header {@link #LAST_MODIFIED_HEADER_NAME} equal to "false".</p>
+   *
+   * <p>Will not modify {@linkplain Canonical Canonical URLs}.</p>
    */
   public static String addLastModified(ServletContext servletContext, HttpServletRequest request, String servletPath, String url, AddLastModified when) throws MalformedURLException {
     // Never try to add if when == falsee
