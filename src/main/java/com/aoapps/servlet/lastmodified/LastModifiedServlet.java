@@ -1,6 +1,6 @@
 /*
  * ao-servlet-last-modified - Automatically adds lastModified URL parameters to ensure latest resources always used.
- * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024  AO Industries, Inc.
+ * Copyright (C) 2013, 2014, 2016, 2017, 2019, 2020, 2021, 2022, 2023, 2024, 2025  AO Industries, Inc.
  *     support@aoindustries.com
  *     7262 Bull Pen Cir
  *     Mobile, AL 36695
@@ -250,15 +250,15 @@ public class LastModifiedServlet extends HttpServlet {
       } else {
         // (Re)parse the file
         String cssContent;
-          {
-            InputStream resourceIn = servletContext.getResourceAsStream(hap.path);
-            if (resourceIn == null) {
-              throw new FileNotFoundException(hap.path);
-            }
-            try (BufferedReader in = new BufferedReader(new InputStreamReader(resourceIn, CSS_ENCODING))) {
-              cssContent = IoUtils.readFully(in);
-            }
+        {
+          InputStream resourceIn = servletContext.getResourceAsStream(hap.path);
+          if (resourceIn == null) {
+            throw new FileNotFoundException(hap.path);
           }
+          try (BufferedReader in = new BufferedReader(new InputStreamReader(resourceIn, CSS_ENCODING))) {
+            cssContent = IoUtils.readFully(in);
+          }
+        }
         // Replace values while capturing URLs
         StringBuilder newContent = new StringBuilder(cssContent.length() << 1);
         Map<HeaderAndPath, Long> referencedPaths = new HashMap<>();
