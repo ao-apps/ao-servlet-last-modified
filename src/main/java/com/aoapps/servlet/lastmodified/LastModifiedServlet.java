@@ -274,7 +274,7 @@ public class LastModifiedServlet extends HttpServlet {
                   && (
                   (ch = cssContent.charAt(start)) == '"'
                       || ch == '\''
-              )
+                )
           ) {
             start++;
           }
@@ -284,7 +284,7 @@ public class LastModifiedServlet extends HttpServlet {
                   && (
                   (ch = cssContent.charAt(end - 1)) == '"'
                       || ch == '\''
-              )
+                )
           ) {
             end--;
           }
