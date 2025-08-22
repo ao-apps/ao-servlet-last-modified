@@ -71,7 +71,7 @@ public class LastModifiedHeaderFilter implements Filter {
       "public"
           // Expiration (1 year = 365.25 days)
           + ",max-age=31557600"
-          //+ ",s-maxage=31557600" // Use same value for proxies
+          // + ",s-maxage=31557600" // Use same value for proxies
           + ",max-stale=31557600"
           + ",stale-while-revalidate=31557600"
           + ",stale-if-error=31557600"

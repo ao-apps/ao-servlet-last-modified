@@ -125,7 +125,7 @@ public class LastModifiedServlet extends HttpServlet {
       "public"
           // Expiration (5 minutes)
           + ",max-age=300"
-          //+ ",s-maxage=300" // Use same value for proxies
+          // + ",s-maxage=300" // Use same value for proxies
           + ",max-stale=300"
           + ",stale-while-revalidate=300"
           + ",stale-if-error=300";
@@ -479,10 +479,10 @@ public class LastModifiedServlet extends HttpServlet {
           "tiff",
           "webp",
           // HTML document: Not included since causes duplicate content URLs
-          //"htm",
-          //"html",
-          //"xhtml",
-          //"mhtml",
+          // "htm",
+          // "html",
+          // "xhtml",
+          // "mhtml",
           // PDF document
           "pdf",
           // XML document
