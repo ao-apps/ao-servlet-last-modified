@@ -8,14 +8,14 @@
 [![semantic versioning: 2.0.0](https://oss.aoapps.com/ao-badges/semver-2.0.0.svg)](https://semver.org/spec/v2.0.0.html)
 [![license: LGPL v3](https://oss.aoapps.com/ao-badges/license-lgpl-3.0.svg)](https://www.gnu.org/licenses/lgpl-3.0)
 
-[![Build](https://github.com/ao-apps/ao-servlet-last-modified/actions/workflows/build.yml/badge.svg?branch=master)](https://github.com/ao-apps/ao-servlet-last-modified/actions?query=workflow%3ABuild)
+[![Build](https://github.com/ao-apps/ao-servlet-last-modified/actions/workflows/build.yml/badge.svg?branch=javaee)](https://github.com/ao-apps/ao-servlet-last-modified/actions?query=workflow%3ABuild)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.aoapps/ao-servlet-last-modified/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.aoapps/ao-servlet-last-modified)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps%3Aao-servlet-last-modified&metric=alert_status)](https://sonarcloud.io/dashboard?branch=master&id=com.aoapps%3Aao-servlet-last-modified)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps%3Aao-servlet-last-modified&metric=ncloc)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps%3Aao-servlet-last-modified&metric=ncloc)  
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps%3Aao-servlet-last-modified&metric=reliability_rating)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps%3Aao-servlet-last-modified&metric=Reliability)
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps%3Aao-servlet-last-modified&metric=security_rating)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps%3Aao-servlet-last-modified&metric=Security)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps%3Aao-servlet-last-modified&metric=sqale_rating)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps%3Aao-servlet-last-modified&metric=Maintainability)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?branch=master&project=com.aoapps%3Aao-servlet-last-modified&metric=coverage)](https://sonarcloud.io/component_measures?branch=master&id=com.aoapps%3Aao-servlet-last-modified&metric=Coverage)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?branch=javaee&project=com.aoapps%3Aao-servlet-last-modified&metric=alert_status)](https://sonarcloud.io/dashboard?branch=javaee&id=com.aoapps%3Aao-servlet-last-modified)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?branch=javaee&project=com.aoapps%3Aao-servlet-last-modified&metric=ncloc)](https://sonarcloud.io/component_measures?branch=javaee&id=com.aoapps%3Aao-servlet-last-modified&metric=ncloc)  
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?branch=javaee&project=com.aoapps%3Aao-servlet-last-modified&metric=reliability_rating)](https://sonarcloud.io/component_measures?branch=javaee&id=com.aoapps%3Aao-servlet-last-modified&metric=Reliability)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?branch=javaee&project=com.aoapps%3Aao-servlet-last-modified&metric=security_rating)](https://sonarcloud.io/component_measures?branch=javaee&id=com.aoapps%3Aao-servlet-last-modified&metric=Security)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?branch=javaee&project=com.aoapps%3Aao-servlet-last-modified&metric=sqale_rating)](https://sonarcloud.io/component_measures?branch=javaee&id=com.aoapps%3Aao-servlet-last-modified&metric=Maintainability)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?branch=javaee&project=com.aoapps%3Aao-servlet-last-modified&metric=coverage)](https://sonarcloud.io/component_measures?branch=javaee&id=com.aoapps%3Aao-servlet-last-modified&metric=Coverage)
 
 Automatically adds lastModified URL parameters to ensure latest resources always used.
 
