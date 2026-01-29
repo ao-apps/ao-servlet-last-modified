@@ -426,7 +426,7 @@ public class LastModifiedServlet extends HttpServlet {
   /**
    * Automatically determines extension from path.
    *
-   * @see  #getLastModified(jakarta.servlet.ServletContext, jakarta.servlet.http.HttpServletRequest, java.lang.String, java.lang.String)
+   * @see  LastModifiedServlet#getLastModified(jakarta.servlet.ServletContext, jakarta.servlet.http.HttpServletRequest, java.lang.String, java.lang.String)
    */
   public static long getLastModified(ServletContext servletContext, HttpServletRequest request, String path) {
     return getLastModified(
@@ -502,7 +502,7 @@ public class LastModifiedServlet extends HttpServlet {
    * Adds a last modified time (to the nearest second) to a URL if the resource is directly available
    * as a local resource.  Only applies to relative URLs (./, ../) or URLs that begin with a slash (/).
    *
-   * <p>Will not modify when the request has header {@link #LAST_MODIFIED_HEADER_NAME} equal to "false".</p>
+   * <p>Will not modify when the request has header {@link LastModifiedServlet#LAST_MODIFIED_HEADER_NAME} equal to "false".</p>
    *
    * <p>Will not modify {@linkplain Canonical Canonical URLs}.</p>
    */
