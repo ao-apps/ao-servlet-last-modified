@@ -21,7 +21,6 @@
  * along with ao-servlet-last-modified.  If not, see <https://www.gnu.org/licenses/>.
  */
 module com.aoapps.servlet.lastmodified {
-  exports com.aoapps.servlet.lastmodified;
   // Direct
   requires static com.aoapps.hodgepodge; // <groupId>com.aoapps</groupId><artifactId>ao-hodgepodge</artifactId>
   requires com.aoapps.lang; // <groupId>com.aoapps</groupId><artifactId>ao-lang</artifactId>
@@ -31,4 +30,6 @@ module com.aoapps.servlet.lastmodified {
   requires jakarta.servlet.jsp; // <groupId>jakarta.servlet.jsp</groupId><artifactId>jakarta.servlet.jsp-api</artifactId>
   // Java SE
   requires java.logging;
+
+  exports com.aoapps.servlet.lastmodified;
 }
